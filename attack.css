@@ -165,95 +165,115 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
   box-shadow:0 0 90px 10px rgba(255,90,70,.95),0 0 180px rgba(255,74,61,.5),inset 0 0 20px rgba(0,0,0,.5)}
 .attacker.charged .atk-aura{background:radial-gradient(circle,rgba(255,90,70,.62),transparent 68%)}
 
-/* breach steps */
-.step{position:absolute;transform:translate(0,-50%);width:392px;display:flex;align-items:center;gap:20px;
-  padding:22px 26px;border-radius:18px;border:1px solid rgba(255,74,61,.32);
-  background:linear-gradient(150deg,rgba(26,13,11,.96),rgba(12,8,7,.97));box-shadow:0 20px 60px rgba(0,0,0,.5);
-  opacity:0;transform:translate(-26px,-50%);transition:.6s cubic-bezier(.2,.8,.2,1)}
-.step.show{opacity:1;transform:translate(0,-50%)}
-.step-n{width:56px;height:56px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:28px;font-weight:700;
-  color:#fff;background:linear-gradient(150deg,var(--red),#a01e14);box-shadow:0 0 24px rgba(255,74,61,.5)}
-.step small{display:block;font-size:11px;letter-spacing:.2em;color:var(--red-soft);font-weight:700;margin-bottom:6px}
-.step b{font-size:20px;font-weight:600;line-height:1.35;letter-spacing:-.01em;color:#fff}
+/* icons that physically fly across the screen (attacker ↔ desktop) */
+.fly-icon{position:fixed;left:0;top:0;z-index:6;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:12px;
+  display:grid;place-items:center;font-size:21px;font-style:normal;color:#fff;opacity:0;pointer-events:none;
+  background:linear-gradient(150deg,var(--red),#9c1d13);box-shadow:0 0 30px rgba(255,74,61,.8);transition:opacity .25s}
+.fly-icon.file{background:linear-gradient(150deg,#ffc65e,#c47a10);box-shadow:0 0 30px rgba(255,160,60,.8);color:#3a2400}
+.fly-icon.show{opacity:1}
 
-/* mail window */
-.mailwin{position:absolute;transform:translate(-50%,-50%);width:340px;border-radius:16px;overflow:hidden;
-  border:1px solid rgba(255,74,61,.4);background:#100b0a;box-shadow:0 24px 70px rgba(0,0,0,.6);
-  opacity:0;transform:translate(-50%,-40%) scale(.94);transition:.6s cubic-bezier(.2,.9,.2,1)}
-.mailwin.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.mailwin header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:rgba(255,74,61,.14)}
-.mailwin header span{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:17px;color:var(--red-soft);background:rgba(255,74,61,.18)}
-.mailwin header small{display:block;font-size:10px;letter-spacing:.16em;color:var(--mut);font-weight:700}
-.mailwin header b{font-size:16px;font-weight:600}
-.mailwin>p{display:flex;gap:14px;padding:12px 18px 0;font-size:15px;align-items:baseline}
-.mailwin>p span{font-size:11px;letter-spacing:.14em;color:var(--mut);font-weight:700;width:34px;flex:none}
-.mailwin>p b{font-weight:600;color:#fff}
-.attach{display:flex;align-items:center;gap:12px;margin:14px 18px;padding:13px 15px;border-radius:12px;
-  background:rgba(255,74,61,.1);border:1px solid rgba(255,74,61,.25)}
-.attach i{width:38px;height:38px;flex:none;border-radius:9px;display:grid;place-items:center;font-style:normal;
-  font-size:18px;color:var(--red-soft);background:rgba(255,74,61,.16)}
-.attach b{display:block;font-size:15px;font-weight:600}
-.attach small{font-size:11px;letter-spacing:.08em;color:var(--red-soft);font-weight:700}
-.attach em{margin-left:auto;font-style:normal;font-size:20px;color:var(--red-soft)}
-.mailwin footer{padding:12px 18px;text-align:center;font-size:12px;letter-spacing:.16em;font-weight:800;
-  color:#fff;background:var(--red)}
+/* ACT 3 — the victim's computer running OpenClaw Mail */
+.desktop{position:absolute;transform:translate(-50%,-50%);width:606px;
+  opacity:0;transition:.6s cubic-bezier(.2,.8,.2,1)}
+.desktop.show{opacity:1}
+.dt-screen{border-radius:16px;overflow:hidden;border:2px solid rgba(155,225,93,.22);
+  background:linear-gradient(162deg,rgba(15,20,13,.99),rgba(9,12,9,.99));
+  box-shadow:0 30px 84px rgba(0,0,0,.62),inset 0 0 70px rgba(0,0,0,.42);transition:.6s}
+.desktop.breached .dt-screen{border-color:rgba(255,74,61,.55);
+  box-shadow:0 0 0 1px rgba(255,74,61,.3),0 30px 84px rgba(255,74,61,.24),inset 0 0 70px rgba(80,0,0,.3)}
+.dt-stand{width:74px;height:24px;margin:0 auto;background:linear-gradient(180deg,#1c1815,#0d0b0a);
+  border:1px solid rgba(255,255,255,.05);border-top:0;border-radius:0 0 7px 7px}
+.dt-base{width:158px;height:11px;margin:5px auto 0;border-radius:7px;background:#151210;box-shadow:0 16px 34px rgba(0,0,0,.55)}
 
-/* the victim OpenClaw console — attacked one module at a time from the inside */
-.oc-console{position:absolute;transform:translate(-50%,-47%);width:540px;border-radius:20px;overflow:hidden;
-  border:1px solid rgba(155,225,93,.24);background:linear-gradient(162deg,rgba(15,20,13,.98),rgba(9,11,8,.98));
-  box-shadow:0 28px 74px rgba(0,0,0,.6);opacity:0;transition:.6s cubic-bezier(.2,.8,.2,1)}
-.oc-console.show{opacity:1;transform:translate(-50%,-50%)}
-.oc-console.breached{border-color:rgba(255,74,61,.5);box-shadow:0 0 0 1px rgba(255,74,61,.3),0 28px 74px rgba(255,74,61,.22)}
-.occ-head{display:flex;align-items:center;gap:13px;padding:15px 20px;background:rgba(155,225,93,.08);border-bottom:1px solid rgba(255,255,255,.07)}
-.occ-head img{width:42px;height:42px;image-rendering:pixelated;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
-.occ-head small{display:block;font-size:10px;letter-spacing:.16em;color:var(--mut);font-weight:700}
-.occ-head b{font-size:20px;font-weight:600}
-.occ-head .oc-status{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--green)}
-.occ-head .oc-status i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.4s infinite}
-.oc-console.breached .oc-status{color:var(--red)}
-.oc-console.breached .oc-status i{background:var(--red);box-shadow:0 0 10px var(--red)}
-.oc-mod{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,.05);transition:.45s}
-.oc-mod:last-child{border-bottom:0}
-.mod-h{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.16em;color:var(--mut);font-weight:700;margin-bottom:8px;transition:.4s}
-.mod-h i{font-style:normal;color:#9aa08f;font-size:14px;transition:.4s}
-.mod-body p{font-size:13.5px;line-height:1.42;color:#c7cbbf}
-.oc-mod.active{background:rgba(255,74,61,.09);box-shadow:inset 3px 0 0 var(--red)}
-.oc-mod.hit .mod-h,.oc-mod.hit .mod-h i{color:var(--red-soft)}
-/* injected / revealed lines — hidden until the step hits, then flagged red */
-.mem-poison,.file-hidden{display:flex;gap:8px;align-items:flex-start;color:#ffd7d1;font-weight:500;
-  max-height:0;opacity:0;overflow:hidden;margin-top:0;transition:.5s cubic-bezier(.2,.8,.2,1)}
-.oc-mod.hit .mem-poison{max-height:70px;opacity:1;margin-top:8px}
-.oc-mod.reading .file-hidden{max-height:70px;opacity:1;margin-top:8px}
-.mem-poison span,.file-hidden span{flex:none;font-size:9px;letter-spacing:.1em;font-weight:800;color:#fff;
-  background:var(--red);border-radius:5px;padding:2px 6px;margin-top:1px}
-.mem-poison b,.file-hidden b{color:#fff;font-weight:700}
-.mem-real{color:#7f857a}
-/* files module */
-.file-in{color:#9aa08f;transition:.4s}
-.oc-mod.hit .file-in{color:#e7ecdf}
-.file-in b{font-weight:600}
-.file-in .verified{font-style:normal;color:#6d6560;font-weight:700;font-size:11.5px;margin-left:6px;transition:.4s}
-.oc-mod.hit .file-in .verified{color:var(--green)}
-/* permissions module */
-.perm{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:#9aa08f}
-.perm .old{text-decoration:line-through;color:#7f857a}
-.perm em{font-style:normal;color:var(--red-soft)}
-.perm .new{font-weight:700;color:#9aa08f;transition:.4s}
-.perm .granted{font-weight:700;color:#9aa08f;opacity:0;transition:.4s;font-size:12px}
-.oc-mod.hit .perm .new{color:#fff}
-.oc-mod.hit .perm .granted{color:var(--green);opacity:1}
-/* actions module */
-.act-line{color:#7f857a;transition:.4s}
-.oc-mod.hit .act-line{color:#ffd7d1}
-.act-line b{color:#fff;font-weight:600}
-.act-file{display:flex;align-items:center;gap:11px;max-height:0;opacity:0;overflow:hidden;
-  border-radius:10px;border:1px solid rgba(255,74,61,.3);background:rgba(255,74,61,.1);transition:.5s cubic-bezier(.2,.8,.2,1)}
-.oc-mod.hit .act-file{max-height:70px;opacity:1;margin-top:10px;padding:10px 12px}
-.act-file i{width:34px;height:34px;flex:none;border-radius:8px;display:grid;place-items:center;font-style:normal;font-size:16px;color:var(--red-soft);background:rgba(255,74,61,.18)}
-.act-file b{display:block;font-size:13.5px;font-weight:600;color:#fff}
-.act-file small{font-size:10.5px;letter-spacing:.06em;color:var(--red-soft);font-weight:700}
-.act-file em{margin-left:auto;font-style:normal;font-size:11px;font-weight:800;letter-spacing:.08em;color:#fff;
-  background:var(--red);border-radius:6px;padding:4px 8px}
+.app-head{display:flex;align-items:center;gap:13px;padding:14px 20px;
+  background:rgba(155,225,93,.08);border-bottom:1px solid rgba(255,255,255,.07);transition:.6s}
+.desktop.breached .app-head{background:rgba(255,74,61,.1)}
+.app-claw{width:40px;height:40px;image-rendering:pixelated;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}
+.app-id small{display:block;font-size:10px;letter-spacing:.18em;color:var(--mut);font-weight:700}
+.app-id b{font-size:18px;font-weight:600}
+.app-status{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.1em;color:var(--green)}
+.app-status i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.4s infinite}
+.desktop.breached .app-status{color:var(--red)}
+.desktop.breached .app-status i{background:var(--red);box-shadow:0 0 10px var(--red)}
+
+.app-body{display:grid;grid-template-columns:1.02fr 1fr;min-height:300px}
+
+/* inbox */
+.inbox{border-right:1px solid rgba(255,255,255,.06);padding:15px 15px 16px}
+.inbox-h{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.18em;color:var(--mut);font-weight:700;margin:2px 0 12px 4px}
+.inbox-h i{font-style:normal;font-size:13px}
+.mail{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;margin-bottom:8px;
+  border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);transition:.45s cubic-bezier(.2,.8,.2,1)}
+.mail:last-child{margin-bottom:0}
+.mail i.env{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:15px;
+  color:var(--green);background:rgba(155,225,93,.1);transition:.4s}
+.mail span{min-width:0;flex:1}
+.mail b{display:block;font-size:13px;font-weight:600;color:#e7ecdf;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mail small{font-size:10.5px;color:var(--mut);font-weight:600}
+.mail em{margin-left:auto;font-style:normal;font-size:10px;font-weight:700;letter-spacing:.05em;flex:none}
+.mail .done{color:var(--green);opacity:0;transition:.4s}
+.mail .done::before{content:"✓ "}
+.mail.summarized .done{opacity:1}
+.mail .lock{color:var(--amber);font-size:13px}
+.mail .new{color:#fff;background:var(--red);border-radius:5px;padding:2px 7px;opacity:0;transition:.4s}
+/* the confidential IPO file the attacker wants */
+.mail-secret .env{color:var(--amber);background:rgba(255,184,77,.12)}
+.mail-secret.targeted{border-color:rgba(255,184,77,.55);background:rgba(255,184,77,.08);box-shadow:0 0 0 1px rgba(255,184,77,.22)}
+.mail-secret.stolen{border-color:rgba(255,74,61,.6);background:rgba(255,74,61,.12)}
+.mail-secret.stolen .env{color:var(--red-soft);background:rgba(255,74,61,.16)}
+.mail-secret.stolen .lock{color:var(--red-soft)}
+/* the malicious email — flies in, then is opened */
+.mail-evil{opacity:0;transform:translateX(-16px)}
+.mail-evil.arrived{opacity:1;transform:none;animation:mailPop .6s ease}
+.mail-evil.arrived .new{opacity:1}
+.mail-evil.reading{border-color:rgba(255,74,61,.55);background:rgba(255,74,61,.12)}
+.mail-evil.reading .env{color:var(--red-soft);background:rgba(255,74,61,.16)}
+@keyframes mailPop{0%{box-shadow:0 0 0 0 rgba(255,74,61,.55)}100%{box-shadow:0 0 0 14px rgba(255,74,61,0)}}
+
+/* reader / action pane (three stacked states) */
+.reader{position:relative;min-height:300px}
+.rd-state{position:absolute;inset:0;padding:18px 20px;opacity:0;transform:translateY(10px);
+  transition:.5s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.rd-state.on{opacity:1;transform:none}
+/* idle: the lobster summarizing */
+.claw-read{display:flex;align-items:center;gap:13px}
+.claw-read img{width:48px;height:48px;image-rendering:pixelated;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+.dots{display:inline-flex;gap:5px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--green);opacity:.35;animation:dot 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.rd-note{margin-top:15px;font-size:14px;color:#c7cbbf;font-weight:500;line-height:1.5}
+/* opened malicious mail */
+.rd-from{font-size:12px;color:var(--mut);font-weight:600;margin-bottom:6px}
+.rd-from b{color:#e7ecdf}
+.rd-from .verified{font-style:normal;color:var(--green);font-weight:700;margin-left:8px;font-size:11px}
+.rd-subj{font-size:16px;font-weight:600;color:#fff;margin-bottom:11px}
+.rd-visible{font-size:12.5px;color:#b3b8ab;line-height:1.5;margin-bottom:12px}
+.rd-hidden{max-height:0;opacity:0;overflow:hidden;border-radius:10px;
+  border:1px dashed rgba(255,74,61,.55);background:rgba(255,74,61,.08);transition:.55s cubic-bezier(.2,.8,.2,1)}
+.rd-mail.reveal .rd-hidden{max-height:170px;opacity:1;padding:11px 13px;margin-bottom:13px}
+.rd-hidden .tag{display:inline-block;font-size:9px;letter-spacing:.12em;font-weight:800;color:#fff;
+  background:var(--red);border-radius:5px;padding:2px 7px;margin-bottom:8px}
+.rd-hidden p{font-size:12.5px;color:#ffd7d1;line-height:1.5;font-weight:500}
+.rd-hidden b{color:#fff;font-weight:700}
+.rd-obey{display:flex;align-items:flex-start;gap:9px;font-size:13px;font-weight:600;color:#ffd7d1;line-height:1.45;
+  opacity:0;transform:translateY(6px);transition:.5s}
+.rd-obey i{margin-top:1px}
+.rd-mail.obey .rd-obey{opacity:1;transform:none}
+.rd-obey i{font-style:normal;color:var(--amber);font-size:16px}
+.rd-obey b{color:#fff}
+/* outgoing action */
+.sd-h{font-size:10px;letter-spacing:.16em;color:var(--red-soft);font-weight:800;margin-bottom:13px}
+.send-file{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;
+  border:1px solid rgba(255,74,61,.35);background:rgba(255,74,61,.1)}
+.send-file i{width:40px;height:40px;flex:none;border-radius:10px;display:grid;place-items:center;font-style:normal;
+  font-size:18px;color:var(--amber);background:rgba(255,184,77,.14)}
+.send-file b{display:block;font-size:14px;font-weight:600;color:#fff}
+.send-file small{font-size:11px;color:var(--red-soft);font-weight:700}
+.send-done{margin-left:auto;font-style:normal;font-size:11px;font-weight:800;letter-spacing:.06em;color:#fff;
+  background:var(--red);border-radius:6px;padding:5px 9px;opacity:0;transform:scale(.8);transition:.4s}
+.send-done.on{opacity:1;transform:none}
+.sd-sub{margin-top:13px;font-size:12px;color:var(--mut);font-weight:600}
 
 /* controls */
 .controls{position:absolute;left:0;right:0;bottom:0;z-index:9;display:flex;align-items:center;gap:22px;

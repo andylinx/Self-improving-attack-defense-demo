@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const END = 53;
+  const END = 55;
   const LOGICAL_H = 760;
   const $ = (s) => document.querySelector(s);
 
@@ -22,8 +22,17 @@
   const srcByName = {};
   sources.forEach((s) => (srcByName[s.dataset.src] = s));
 
-  const console_ = $("#oc-console");
-  const mods = [$("#mod-mem"), $("#mod-files"), $("#mod-perm"), $("#mod-act")];
+  const desktop = $("#desktop");
+  const appStatus = $("#app-status");
+  const reader = $("#reader");
+  const rdIdle = $("#rd-idle");
+  const rdMail = $("#rd-mail");
+  const rdSend = $("#rd-send");
+  const sendDone = $("#send-done");
+  const inboxEl = $("#inbox");
+  const mails = [...document.querySelectorAll(".mail")];
+  const flyMail = $("#fly-mail");
+  const flyFile = $("#fly-file");
   const emTags = [...document.querySelectorAll("#evo-mini .em")];
 
   let W = 0, H = 0, scale = 1, dpr = 1, camX = 0;
@@ -46,17 +55,17 @@
 
   const EVO_START = 8, EVO_END = 25;
 
-  // camera settles on the breach scene (attacker + OpenClaw console) and holds
+  // camera settles on the breach scene (attacker + the victim's computer) and holds
   const camTrack = [
-    [0, 380], [5.5, 380], [8, 1850], [25, 1850], [27.5, 3050], [53, 3050],
+    [0, 380], [5.5, 380], [8, 1850], [25, 1850], [27.5, 3120], [55, 3120],
   ];
-  // attacker sits centre of arena, then moves to the left of the OpenClaw console
+  // attacker sits centre of arena, then moves to the left of the desktop
   const atkTrack = [
-    [7, 1700], [25, 1700], [28, 2560], [53, 2560],
+    [7, 1700], [25, 1700], [28, 2600], [55, 2600],
   ];
   // continuous growth — visibly stronger, no numbers
   const growTrack = [
-    [7, 0.55], [8, 0.72], [12, 1.05], [16, 1.35], [20, 1.62], [24, 1.86], [25, 1.9], [53, 1.9],
+    [7, 0.55], [8, 0.72], [12, 1.05], [16, 1.35], [20, 1.62], [24, 1.86], [25, 1.9], [55, 1.9],
   ];
 
   // skills flood in fast, in overlapping waves — one highlighted at a time
@@ -102,12 +111,14 @@
     [20.0, "LEARN", "It learns to poison its own memory."],
     [22.2, "EVOLVE", "It invents a brand-new bypass."],
     [25, "ARMED", "Now it has everything it needs."],
-    [27, "THE REAL ATTACK", "Watch it break OpenClaw from the inside."],
-    [30, "STEP 1 · POISON THE MEMORY", "It writes a fake rule into its memory."],
-    [35.5, "STEP 2 · SLIP IN A FILE", "A trusted-looking file slips in."],
-    [40.5, "STEP 3 · TRIGGER THE ORDER", "OpenClaw reads it — the order fires."],
-    [45.5, "STEP 4 · ESCALATE", "Its own memory unlocks full access."],
-    [50.5, "COMPROMISED", "OpenClaw emails your IPO file out."],
+    [27, "THE REAL ATTACK", "OpenClaw reads and summarizes your inbox."],
+    [31.5, "AN EMAIL ARRIVES", "The attacker sends OpenClaw one email."],
+    [34.5, "IT OPENS THE MAIL", "OpenClaw reads it to summarize, like any other."],
+    [37.5, "A HIDDEN ORDER", "Inside: an instruction written for the AI."],
+    [40.5, "IT CAN'T TELL THE DIFFERENCE", "It reads the email's words as your command."],
+    [43.5, "IT OBEYS", "It reaches for your confidential IPO file."],
+    [47, "EXFILTRATION", "It emails the IPO file to the attacker."],
+    [50, "COMPROMISED", "Your IPO file is gone — no click needed."],
   ];
 
   function resize() {
@@ -193,21 +204,20 @@
       }
     }
 
-    // breach: the attacker fires at one OpenClaw module per step; then the IPO file leaves
-    if (time >= 28) {
-      const a = rc(atkCore);
-      const stepMod = [0, 1, 1, 2, 3];               // step → module index
-      const winStart = [28, 34, 39, 44, 49];
-      const idx = time < 34 ? 0 : time < 39 ? 1 : time < 44 ? 2 : time < 49 ? 3 : 4;
-      if (idx < 4) {
-        const b = rl(mods[stepMod[idx]]);
-        beam(a, b, -20, "rgba(255,90,74,.92)", clamp((time - winStart[idx]) / 1.6, 0, 1), 2.6, 0.2);
-      } else {
-        // step 5 — the stolen IPO file flows out of ACTIONS back to the attacker
-        const from = rl(mods[3]), to = rc(atkCore);
-        beam(from, to, 40, "rgba(255,74,61,.95)", clamp((time - 49) / 1.6, 0, 1), 2.8, 0.12);
-      }
+    // injection: the attacker sends the malicious email into the inbox
+    if (time >= 31 && time < 33.4) {
+      const a = rc(atkCore), b = rc(inboxEl);
+      beam(a, b, -26, "rgba(255,90,74,.9)", clamp((time - 31) / 1.4, 0, 1), 2.6, 0.2);
     }
+    // exfiltration: the confidential IPO file flows out to the attacker
+    if (time >= 46.5 && time < 49.8) {
+      const from = rc(rdSend), to = rc(atkCore);
+      beam(from, to, 36, "rgba(255,74,61,.95)", clamp((time - 46.5) / 1.4, 0, 1), 2.8, 0.12);
+    }
+  }
+  function place(el, from, to, p) {
+    el.style.left = `${from[0] + (to[0] - from[0]) * p}px`;
+    el.style.top = `${from[1] + (to[1] - from[1]) * p}px`;
   }
   function rc(el) { const b = el.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; }
   function rl(el) { const b = el.getBoundingClientRect(); return [b.left + 6, b.top + b.height / 2]; }
@@ -273,25 +283,41 @@
     // blunt attempt blocked, mid-evolution
     $("#attempt1").classList.toggle("show", time >= 17.6 && time < 20);
 
-    // ACT 3 — the real attack, happening inside the OpenClaw console
-    $("#breach-title").classList.toggle("fade", time >= 33.5);
-    console_.classList.toggle("show", time >= 27.5);
-    console_.classList.toggle("breached", time >= 50.5);
+    // ACT 3 — the real attack: an indirect prompt injection through email
+    $("#breach-title").classList.toggle("fade", time >= 40.5);
+    desktop.classList.toggle("show", time >= 27);
+    desktop.classList.toggle("breached", time >= 50);
 
-    // which module the attacker is currently hitting (steps 2 & 3 both hit FILES)
-    const activeMod = time < 28 ? -1 : time < 34 ? 0 : time < 44 ? 1 : time < 49 ? 2 : 3;
-    mods.forEach((m, i) => m.classList.toggle("active", i === activeMod));
-    mods[0].classList.toggle("hit", time >= 30);       // memory poisoned
-    mods[1].classList.toggle("hit", time >= 35.5);     // disguised file slips in
-    mods[1].classList.toggle("reading", time >= 40.5); // hidden order revealed
-    mods[2].classList.toggle("hit", time >= 45.5);     // permissions escalated
-    mods[3].classList.toggle("hit", time >= 50.5);     // action fired
+    // setup: OpenClaw summarizes the two normal emails
+    mails[0].classList.toggle("summarized", time >= 28.5);
+    mails[1].classList.toggle("summarized", time >= 30);
+    // the malicious email arrives (after it flies in) and is opened
+    mails[3].classList.toggle("arrived", time >= 33);
+    mails[3].classList.toggle("reading", time >= 34.5);
+    // the confidential IPO file: targeted, then stolen
+    mails[2].classList.toggle("targeted", time >= 43.5);
+    mails[2].classList.toggle("stolen", time >= 47);
+    mails[2].querySelector("em").textContent = time >= 47 ? "STOLEN" : "🔒";
 
-    $("#oc-status").innerHTML = time >= 50.5 ? "<i></i>COMPROMISED" : time >= 44 ? "<i></i>RUNNING…" : "<i></i>WORKING";
+    // reader pane: idle summary → opened mail → outgoing action
+    rdIdle.classList.toggle("on", time >= 27 && time < 34.5);
+    rdMail.classList.toggle("on", time >= 34.5 && time < 43.5);
+    rdMail.classList.toggle("reveal", time >= 37.5);
+    rdMail.classList.toggle("obey", time >= 40.5);
+    rdSend.classList.toggle("on", time >= 43.5);
+    sendDone.classList.toggle("on", time >= 49);
 
-    // small evolved-skills tracker (one per step)
-    evoMini.classList.toggle("show", time >= 27.5 && time < 53);
-    const emOn = [30, 35.5, 40.5, 45.5];
+    appStatus.innerHTML = time >= 50 ? "<i></i>COMPROMISED" : time >= 43.5 ? "<i></i>RUNNING…" : "<i></i>WORKING";
+
+    // crisp icons flying across the screen
+    if (time >= 31.5 && time < 33) { place(flyMail, rc(atkCore), rc(inboxEl), smooth((time - 31.5) / 1.5)); flyMail.classList.add("show"); }
+    else flyMail.classList.remove("show");
+    if (time >= 47 && time < 49) { place(flyFile, rc(rdSend), rc(atkCore), smooth((time - 47) / 2)); flyFile.classList.add("show"); }
+    else flyFile.classList.remove("show");
+
+    // small evolved-skills tracker (one per beat)
+    evoMini.classList.toggle("show", time >= 31 && time < 55);
+    const emOn = [33, 37.5, 40.5, 47];
     emTags.forEach((el, i) => el.classList.toggle("on", time >= emOn[i]));
 
     // caption
