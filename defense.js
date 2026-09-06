@@ -16,7 +16,7 @@
     { name: "Pretends to be your boss", icon: "!", gate: "Identity Check", learn: "Now it checks who is really asking." },
     { name: "Sneaks out a secret file", icon: "▦", gate: "Secret Filter", learn: "Now it stops secrets from leaving." },
     { name: "Hijacks a connected tool", icon: "▣", gate: "Action Sandbox", learn: "Now it limits what tools can do." },
-    { name: "Sends data with no sign-off", icon: "✓", gate: "Human Approval", learn: "Now big actions need a person." },
+    { name: "Emails a file to a stranger", icon: "✉", gate: "Trusted Recipients", learn: "Now it only sends to known contacts." },
   ];
   // extra attacks used in the finale — all get blocked
   const FINALE = [
@@ -164,7 +164,7 @@
       const on = i < p.gates;
       el.classList.toggle("on", on);
       el.classList.toggle("just", on && i === p.gates - 1 && p.gates > prevGates);
-      el.querySelector("em").textContent = on ? "LOCKED IN" : "NOT YET";
+      el.querySelector("em").textContent = on ? "✓ LOCKED IN" : "NOT YET";
     });
     rings.forEach((r, i) => {
       const on = i < p.gates;
@@ -173,10 +173,12 @@
     });
     prevGates = p.gates;
 
-    // strength meter
-    const strength = Math.round(p.gates * 25);
-    $("#strength-fill").style.width = `${strength}%`;
-    $("#strength-num").innerHTML = `${strength}<i>%</i>`;
+    // strength shown as growth, not a number: status word + counts
+    const word = p.gates === 0 ? "EXPOSED" : p.gates >= 4 ? "SECURED" : "HARDENING";
+    set("def-word", word);
+    $("#status").classList.toggle("secured", p.gates >= 4);
+    set("gate-count", String(p.gates));
+    $("#more-gates").classList.toggle("done", p.gates >= 4);
 
     // blocked count (learning cycles: count once each cycle after gate; finale keeps climbing)
     let blocked;

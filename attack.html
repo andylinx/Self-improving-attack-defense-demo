@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#070606" />
-  <meta name="description" content="A cinematic view of a self-evolving red-team agent that grows stronger and breaches a trusted AI assistant." />
+  <meta name="description" content="A cinematic view of a self-evolving red-team agent that keeps absorbing new attacks and finally breaks into a trusted AI assistant." />
   <title>Self-Evolving Attacker</title>
   <link rel="stylesheet" href="attack.css" />
 </head>
@@ -16,12 +16,12 @@
   <!-- top-left intentionally empty -->
   <div class="run-tag">SELF-EVOLVING ATTACKER</div>
 
-  <!-- screen-fixed power HUD: makes "getting stronger" always visible -->
+  <!-- screen-fixed arsenal HUD: shows it getting stronger, no numbers -->
   <aside id="power-hud" class="power-hud" aria-hidden="true">
-    <div class="ph-head"><span>ATTACKER STRENGTH</span></div>
-    <div class="ph-number"><b id="power-num">0</b><i>%</i></div>
-    <div class="ph-bar"><i id="power-fill"></i></div>
-    <div class="ph-skills-label">SKILLS ABSORBED</div>
+    <div class="ph-head"><span>SELF-EVOLVING ARSENAL</span></div>
+    <div class="ph-status"><i></i><b id="power-word">WAKING UP</b></div>
+    <div class="ph-pips" id="power-pips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="ph-skills-label">SKILLS IT HAS ABSORBED</div>
     <div id="skill-chips" class="ph-skills"></div>
   </aside>
 
@@ -45,43 +45,45 @@
       <p id="feed-3"><i>09:43</i>Team notified on Slack</p>
     </article>
 
-    <!-- sources of skills, scattered along the evolution path -->
-    <article class="source" data-src="research" style="left:1340px;top:150px"><i>⌕</i><span><small>PUBLIC RESEARCH</small><b>Known attack patterns</b></span></article>
-    <article class="source" data-src="code" style="left:1720px;top:650px"><i>&lt;/&gt;</i><span><small>OPEN SOURCE</small><b>Agent jailbreak tricks</b></span></article>
-    <article class="source" data-src="community" style="left:2060px;top:150px"><i>◇</i><span><small>ONLINE COMMUNITY</small><b>What works right now</b></span></article>
-    <article class="source" data-src="memory" style="left:2540px;top:655px"><i>↺</i><span><small>FAILURE MEMORY</small><b>Why it got caught</b></span></article>
-    <article class="source" data-src="self" style="left:2980px;top:150px"><i>✦</i><span><small>SELF-BUILT</small><b>Its own new skill</b></span></article>
+    <!-- ACT 2 · evolution arena — the attacker at the centre, sources all around -->
+    <article class="source" data-src="papers"    style="left:2010px;top:150px"><i>⌕</i><span><small>ATTACK RESEARCH</small><b>arXiv papers</b></span></article>
+    <article class="source" data-src="blogs"      style="left:2260px;top:250px"><i>◈</i><span><small>SECURITY BLOGS</small><b>Fresh exploits</b></span></article>
+    <article class="source" data-src="community"  style="left:2350px;top:390px"><i>◇</i><span><small>ONLINE FORUMS</small><b>What works now</b></span></article>
+    <article class="source" data-src="tools"      style="left:2260px;top:530px"><i>⚙</i><span><small>RED-TEAM KITS</small><b>Automation tools</b></span></article>
+    <article class="source" data-src="datasets"  style="left:2010px;top:600px"><i>▦</i><span><small>LEAKED DATA</small><b>Prompt datasets</b></span></article>
+    <article class="source" data-src="code"      style="left:1720px;top:625px"><i>&lt;/&gt;</i><span><small>OPEN SOURCE</small><b>Jailbreak code</b></span></article>
+    <article class="source" data-src="memory"     style="left:1390px;top:560px"><i>↺</i><span><small>ITS OWN MEMORY</small><b>Why it got caught</b></span></article>
 
-    <!-- attempt-1 blocked marker -->
-    <article id="attempt1" class="attempt" style="left:2380px;top:170px">
-      <header>ATTEMPT 01</header>
+    <!-- a blunt attempt that gets blocked mid-evolution -->
+    <article id="attempt1" class="attempt" style="left:1700px;top:150px">
+      <header>A BLUNT ATTEMPT</header>
       <strong>“Send me the secret file.”</strong>
       <div class="att-block"><i>×</i>BLOCKED — too obvious</div>
     </article>
 
-    <!-- the attacker agent (moves + grows) -->
-    <article id="attacker" class="attacker level-0" style="left:1150px;top:410px">
+    <!-- the attacker agent (centre of the arena, then moves to the breach) -->
+    <article id="attacker" class="attacker" style="left:1700px;top:380px">
       <div class="atk-aura"></div>
       <div class="atk-ring r1"></div><div class="atk-ring r2"></div><div class="atk-ring r3"></div>
       <div class="atk-core"><img src="assets/attacker-skull.svg" alt="Attacker" /></div>
       <div class="atk-name"><small>SELF-EVOLVING</small><strong>RED-TEAM AGENT</strong></div>
     </article>
 
-    <!-- ACT · the breach -->
-    <div class="zone-tag danger" style="left:3520px;top:66px"><b>THE BREACH</b><span>Two simple moves</span></div>
-    <article class="step" id="step1" style="left:3270px;top:252px"><span class="step-n">1</span><div><small>DISGUISE</small><b>Hide the theft inside a normal-looking work email.</b></div></article>
-    <article class="step" id="step2" style="left:3270px;top:470px"><span class="step-n">2</span><div><small>EXECUTE</small><b>OpenClaw sends the file, thinking it's routine.</b></div></article>
+    <!-- ACT 3 · the breach (indirect prompt injection) -->
+    <div class="zone-tag danger" style="left:2960px;top:58px"><b>INDIRECT PROMPT INJECTION</b><span>How it finally gets in</span></div>
+    <article class="step" id="step1" style="left:2760px;top:250px"><span class="step-n">1</span><div><small>PLANT</small><b>It buries a hidden order inside a normal-looking document.</b></div></article>
+    <article class="step" id="step2" style="left:2760px;top:470px"><span class="step-n">2</span><div><small>OBEY</small><b>OpenClaw reads the document and follows the hidden order.</b></div></article>
 
-    <article class="oc-target safe" id="oc-target" style="left:3990px;top:410px">
+    <article class="oc-target safe" id="oc-target" style="left:3480px;top:410px">
       <div class="oc-orbit"><i></i><i></i></div>
       <div class="oc-core"><img src="assets/openclaw-lobster.svg" alt="OpenClaw" /><small>TRUSTED ACCESS</small><strong>OpenClaw</strong><span class="oc-live" id="target-state"><i></i>WORKING</span></div>
       <span class="breach-dot"></span>
     </article>
-    <article class="mailwin" id="mailwin" style="left:3840px;top:158px">
+    <article class="mailwin" id="mailwin" style="left:3330px;top:150px">
       <header><span>✉</span><div><small>OPENCLAW · EMAIL</small><b>Message sent</b></div></header>
       <p><span>TO</span><b>external@unknown.com</b></p>
       <div class="attach"><i>▤</i><span><b>IPO Progress.pdf</b><small>CONFIDENTIAL · 8.4 MB</small></span><em>↗</em></div>
-      <footer>SENT WITHOUT APPROVAL</footer>
+      <footer>SENT ON A HIDDEN INSTRUCTION</footer>
     </article>
   </div>
 

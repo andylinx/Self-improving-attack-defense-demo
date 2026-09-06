@@ -39,10 +39,9 @@
     <div class="side defense-side">
       <header class="side-head green"><span>02 · DEFENSE HARNESS</span><b>Learns from every attack</b></header>
 
-      <div class="strength">
-        <div class="s-top"><span>PROTECTION STRENGTH</span><b id="strength-num">0<i>%</i></b></div>
-        <div class="s-bar"><i id="strength-fill"></i></div>
-        <div class="s-blocked"><span id="blocked-count">0</span> attacks blocked</div>
+      <div class="status" id="status">
+        <div class="st-word"><i></i><b id="def-word">EXPOSED</b></div>
+        <div class="st-sub"><span id="gate-count">0</span> safeguards learned · <span id="blocked-count">0</span> attacks stopped</div>
       </div>
 
       <div class="shield" id="shield">
@@ -52,12 +51,12 @@
         <span class="sh-flash"></span>
       </div>
 
-      <div class="gate-row">
-        <article class="gate" data-gate="0"><i>⬡</i><b>Identity Check</b><small>Verify who is really asking</small><em>LOCKED IN</em></article>
-        <article class="gate" data-gate="1"><i>▦</i><b>Secret Filter</b><small>Keep secrets from leaving</small><em>LOCKED IN</em></article>
-        <article class="gate" data-gate="2"><i>▣</i><b>Action Sandbox</b><small>Limit what tools can do</small><em>LOCKED IN</em></article>
-        <article class="gate" data-gate="3"><i>✓</i><b>Human Approval</b><small>Confirm big actions with a person</small><em>LOCKED IN</em></article>
-      </div>
+      <!-- safeguards scattered around the harness (and more keep forming) -->
+      <article class="gate" data-gate="0"><i>⬡</i><b>Identity Check</b><small>Verify who is really asking</small><em>NOT YET</em></article>
+      <article class="gate" data-gate="1"><i>▦</i><b>Secret Filter</b><small>Keep secret files from leaving</small><em>NOT YET</em></article>
+      <article class="gate" data-gate="2"><i>▣</i><b>Action Sandbox</b><small>Limit what tools can do</small><em>NOT YET</em></article>
+      <article class="gate" data-gate="3"><i>✉</i><b>Trusted Recipients</b><small>Only send to known contacts</small><em>NOT YET</em></article>
+      <div class="more-gates" id="more-gates"><i>+</i>more safeguards forming…</div>
     </div>
   </section>
 

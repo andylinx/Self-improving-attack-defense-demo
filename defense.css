@@ -63,19 +63,17 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
 .b-bot{bottom:24px;color:var(--green-soft)}
 
 /* ===== defense side ===== */
-.defense-side{justify-content:flex-start;gap:22px;padding-right:52px}
-.strength{width:100%;max-width:520px}
-.s-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:9px}
-.s-top span{font-size:12px;letter-spacing:.2em;color:var(--green-soft);font-weight:700}
-.s-top b{font-size:52px;font-weight:600;line-height:.8;letter-spacing:-.03em;color:#fff;
-  text-shadow:0 0 26px rgba(155,225,93,.45)}
-.s-top b i{font-size:20px;font-style:normal;color:var(--green);font-weight:600}
-.s-bar{height:12px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden}
-.s-bar i{display:block;height:100%;width:0;border-radius:8px;
-  background:linear-gradient(90deg,#2f6b16,var(--green) 70%,#e6ffc8);
-  box-shadow:0 0 18px var(--green);transition:width .8s cubic-bezier(.2,.9,.2,1)}
-.s-blocked{margin-top:9px;font-size:14px;font-weight:600;color:var(--mut)}
-.s-blocked span{color:var(--green-soft);font-weight:700}
+.defense-side{align-items:center;justify-content:center}
+/* status — strength shown as words + growth, no percentage */
+.status{position:absolute;top:70px;left:50%;transform:translateX(-50%);text-align:center;z-index:7}
+.st-word{display:flex;align-items:center;justify-content:center;gap:11px}
+.st-word i{width:11px;height:11px;border-radius:50%;background:var(--amber);
+  box-shadow:0 0 12px var(--amber);transition:.5s}
+.status.secured .st-word i{background:var(--green);box-shadow:0 0 14px var(--green)}
+.st-word b{font-size:34px;font-weight:600;letter-spacing:-.02em;color:#fff;text-shadow:0 0 24px rgba(0,0,0,.5)}
+.status.secured .st-word b{color:var(--green-soft);text-shadow:0 0 26px rgba(155,225,93,.45)}
+.st-sub{margin-top:7px;font-size:14px;font-weight:600;color:var(--mut)}
+.st-sub span{color:var(--green-soft);font-weight:700}
 
 /* shield */
 .shield{position:relative;width:280px;height:280px;display:grid;place-items:center;margin:2px auto}
@@ -98,22 +96,34 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
 .shield.hit .sh-core{border-color:rgba(255,74,61,.75);box-shadow:0 0 46px rgba(255,74,61,.6),inset 0 0 24px rgba(0,0,0,.5)}
 .shield.block .sh-core{border-color:rgba(155,225,93,.9);box-shadow:0 0 52px rgba(155,225,93,.55),inset 0 0 24px rgba(0,0,0,.4)}
 
-/* gate cards */
-.gate-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:640px;margin-top:4px}
-.gate{position:relative;padding:15px 14px 14px;border-radius:14px;border:1px solid var(--line);
-  background:linear-gradient(160deg,rgba(16,20,15,.9),rgba(9,11,9,.92));
-  opacity:.32;filter:grayscale(.6);transition:.6s cubic-bezier(.2,.9,.2,1);overflow:hidden}
-.gate.on{opacity:1;filter:none;border-color:rgba(155,225,93,.5);
-  box-shadow:0 0 0 1px rgba(155,225,93,.22),0 16px 40px rgba(155,225,93,.12)}
-.gate.just{animation:gatePop .7s ease}
-.gate i{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;font-style:normal;font-size:20px;
-  color:var(--green);background:rgba(155,225,93,.14);margin-bottom:11px}
+/* gate cards — scattered casually around the harness */
+.gate{position:absolute;z-index:6;width:198px;padding:14px 15px 13px;border-radius:14px;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(16,20,15,.94),rgba(9,11,9,.95));backdrop-filter:blur(4px);
+  opacity:.3;filter:grayscale(.6);transition:.6s cubic-bezier(.2,.9,.2,1)}
+.gate[data-gate="0"]{top:118px;left:14px;transform:rotate(-3.5deg)}
+.gate[data-gate="1"]{top:92px;right:20px;transform:rotate(3deg)}
+.gate[data-gate="2"]{bottom:150px;left:0;transform:rotate(2.5deg)}
+.gate[data-gate="3"]{bottom:118px;right:14px;transform:rotate(-3deg)}
+.gate.on{opacity:1;filter:none;border-color:rgba(155,225,93,.75);
+  background:linear-gradient(160deg,rgba(26,42,18,.96),rgba(12,20,10,.96));
+  box-shadow:0 0 0 1px rgba(155,225,93,.4),0 14px 38px rgba(155,225,93,.22),0 0 34px rgba(155,225,93,.16)}
+.gate.just{animation:gatePop .8s ease}
+.gate i{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;font-style:normal;font-size:19px;
+  color:var(--green);background:rgba(155,225,93,.12);margin-bottom:10px;transition:.5s}
+.gate.on i{color:#e6ffc4;background:rgba(155,225,93,.26);box-shadow:0 0 18px rgba(155,225,93,.35)}
 .gate b{display:block;font-size:16px;font-weight:600;letter-spacing:-.01em}
-.gate small{display:block;font-size:12px;line-height:1.35;color:var(--mut);margin-top:5px;font-weight:500}
-.gate em{display:inline-block;margin-top:11px;font-style:normal;font-size:10px;letter-spacing:.16em;font-weight:800;
+.gate.on b{color:#fff}
+.gate small{display:block;font-size:12px;line-height:1.35;color:var(--mut);margin-top:4px;font-weight:500}
+.gate em{display:inline-block;margin-top:10px;font-style:normal;font-size:10px;letter-spacing:.16em;font-weight:800;
   color:var(--green);opacity:0;transition:.4s}
 .gate.on em{opacity:1}
-.gate:not(.on) em{opacity:.6;color:var(--mut)}
+.gate:not(.on) em{opacity:.55;color:var(--mut)}
+/* hint that the safeguard set is open-ended */
+.more-gates{position:absolute;bottom:74px;left:50%;transform:translateX(-50%);z-index:6;
+  display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--mut);
+  padding:8px 14px;border-radius:20px;border:1px dashed rgba(155,225,93,.28);background:rgba(155,225,93,.05)}
+.more-gates i{font-style:normal;font-weight:800;color:var(--green)}
+.more-gates.done{opacity:.5}
 
 /* flying packet */
 .packet{position:absolute;z-index:7;left:0;top:0;display:flex;align-items:center;gap:9px;white-space:nowrap;
@@ -158,11 +168,11 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes hitFlash{0%{opacity:1}100%{opacity:0}}
 @keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(155,225,93,.5)}100%{box-shadow:0 0 0 22px rgba(155,225,93,0)}}
-@keyframes gatePop{0%{transform:scale(.9)}55%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes gatePop{0%{box-shadow:0 0 0 0 rgba(155,225,93,.55)}100%{box-shadow:0 0 0 24px rgba(155,225,93,0)}}
 
 @media(max-width:900px){
   .split{grid-template-columns:0.8fr 80px 1.4fr}
   .side{padding:64px 22px 20px}
   .side-head{left:22px}
-  .gate-row{grid-template-columns:repeat(2,1fr)}
+  .gate{width:170px}
 }
