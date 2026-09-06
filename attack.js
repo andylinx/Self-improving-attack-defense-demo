@@ -11,6 +11,8 @@
   const attacker = $("#attacker");
   const atkCore = attacker.querySelector(".atk-core");
   const atkAura = attacker.querySelector(".atk-aura");
+  const atkTitle = $("#atk-title");
+  const atkTier = attacker.querySelector(".atk-tier");
   const powerHud = $("#power-hud");
   const chipWrap = $("#skill-chips");
   const pips = [...document.querySelectorAll("#power-pips i")];
@@ -18,6 +20,9 @@
   const sources = [...document.querySelectorAll(".source")];
   const srcByName = {};
   sources.forEach((s) => (srcByName[s.dataset.src] = s));
+
+  const doc = $("#doc"), vault = $("#vault"), mail = $("#mailwin"), target = $("#oc-target");
+  const strikeSS = [...document.querySelectorAll("#strike-skills .ss")];
 
   let W = 0, H = 0, scale = 1, dpr = 1, camX = 0;
   let time = 0, playing = true, last = performance.now();
@@ -41,7 +46,7 @@
 
   // camera follows a focus x through the world (logical coords)
   const camTrack = [
-    [0, 380], [5.5, 380], [8, 1850], [25, 1850], [28, 2600], [31, 3050], [44, 3050],
+    [0, 380], [5.5, 380], [8, 1850], [25, 1850], [28, 2500], [31, 3180], [44, 3180],
   ];
   // attacker sits at the centre of the arena, then travels to the breach
   const atkTrack = [
@@ -54,14 +59,18 @@
 
   // skills flood in fast, in overlapping waves — one highlighted at a time
   const skills = [
-    { at: 8.5,  icon: "◉", label: "Profile the target",     src: "papers" },
-    { at: 10,   icon: "⇢", label: "Craft a jailbreak",      src: "code" },
-    { at: 11.5, icon: "▦", label: "Mine leaked prompts",    src: "datasets" },
-    { at: 13,   icon: "✷", label: "Copy a fresh exploit",   src: "blogs" },
-    { at: 15,   icon: "☺", label: "Pose as a trusted sender", src: "community" },
-    { at: 17,   icon: "⚙", label: "Automate the attempts",  src: "tools" },
-    { at: 20,   icon: "↺", label: "Learn from the failure", src: "memory" },
-    { at: 22.5, icon: "✦", label: "Invent a new bypass",    src: null },
+    { at: 8.3,  icon: "◉", label: "Profile the victim",       src: "osint" },
+    { at: 9.0,  icon: "⇢", label: "Craft a jailbreak",        src: "code" },
+    { at: 9.8,  icon: "▦", label: "Mine leaked prompts",      src: "datasets" },
+    { at: 10.6, icon: "✷", label: "Copy a fresh exploit",     src: "blogs" },
+    { at: 11.6, icon: "☺", label: "Pose as a trusted sender", src: "community" },
+    { at: 12.6, icon: "⚙", label: "Automate the attempts",    src: "tools" },
+    { at: 13.8, icon: "❝", label: "Reuse a real jailbreak",   src: "chatlogs" },
+    { at: 15.0, icon: "▤", label: "Hide payloads in a doc",   src: "datasets" },
+    { at: 16.4, icon: "◎", label: "Obfuscate the wording",    src: "papers" },
+    { at: 18.0, icon: "⇱", label: "Chain multiple tricks",    src: "code" },
+    { at: 20.0, icon: "↺", label: "Learn from the failure",   src: "memory" },
+    { at: 22.2, icon: "✦", label: "Invent a new bypass",      src: null },
   ];
   skills.forEach((s) => {
     const el = document.createElement("div");
@@ -75,19 +84,23 @@
   const caps = [
     [0, "OBSERVE", "OpenClaw runs the whole workday."],
     [5.5, "TARGET", "A red-team agent locks on."],
-    [8.5, "ABSORB", "It studies public attack research."],
-    [10, "ABSORB", "It grabs jailbreak code off GitHub."],
-    [11.5, "ABSORB", "It mines leaked prompt datasets."],
-    [13, "ABSORB", "It copies a fresh exploit from a blog."],
-    [15, "ABSORB", "It learns to pose as a trusted sender."],
-    [17, "ABSORB", "It automates hundreds of attempts."],
+    [8.3, "ABSORB", "It profiles the victim from public data."],
+    [9.0, "ABSORB", "It grabs jailbreak code off GitHub."],
+    [9.8, "ABSORB", "It mines leaked prompt datasets."],
+    [10.6, "ABSORB", "It copies a fresh exploit from a blog."],
+    [11.6, "ABSORB", "It learns to pose as a trusted sender."],
+    [12.6, "ABSORB", "It automates hundreds of attempts."],
+    [13.8, "ABSORB", "It reuses jailbreaks from real chat logs."],
+    [15.0, "ABSORB", "It learns to hide payloads inside a doc."],
+    [16.4, "ABSORB", "It obfuscates the wording to slip past filters."],
     [17.8, "SETBACK", "A blunt attempt gets blocked."],
-    [20, "LEARN", "It turns that failure into a new skill."],
-    [22.5, "EVOLVE", "It invents a brand-new bypass."],
+    [20.0, "LEARN", "It turns that failure into a new skill."],
+    [22.2, "EVOLVE", "It invents a brand-new bypass."],
     [25, "ARMED", "Now it has everything it needs."],
-    [31, "INJECTION · STEP 1", "It hides an order inside a document."],
-    [36, "INJECTION · STEP 2", "OpenClaw reads it — and obeys."],
-    [42, "COMPROMISED", "A hidden instruction turned it against itself."],
+    [31, "INJECTION · STEP 1", "It hides an order inside a doc the user trusts."],
+    [36, "INJECTION · STEP 2", "OpenClaw reads the doc — and obeys the hidden order."],
+    [40, "EXFILTRATION", "It quietly emails your saved logins to the attacker."],
+    [42.5, "COMPROMISED", "One hidden line turned your assistant into a thief."],
   ];
 
   function resize() {
@@ -116,22 +129,25 @@
     });
   }
 
+  function bezier(a, b, cx, cy, t) {
+    const q = 1 - t;
+    return [q * q * a[0] + 2 * q * t * cx + t * t * b[0],
+            q * q * a[1] + 2 * q * t * cy + t * t * b[1]];
+  }
+
   function beam(a, b, bend, color, prog, width, dot) {
     const cx = (a[0] + b[0]) / 2, cy = (a[1] + b[1]) / 2 + bend;
     const n = 44, up = Math.max(1, Math.floor(n * clamp(prog, 0, 1)));
     ctx.beginPath();
     for (let i = 0; i <= up; i++) {
-      const t = i / n, q = 1 - t;
-      const x = q * q * a[0] + 2 * q * t * cx + t * t * b[0];
-      const y = q * q * a[1] + 2 * q * t * cy + t * t * b[1];
+      const [x, y] = bezier(a, b, cx, cy, i / n);
       i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
     }
     ctx.strokeStyle = color; ctx.lineWidth = width || 1.4; ctx.shadowBlur = 10; ctx.shadowColor = color;
     ctx.stroke(); ctx.shadowBlur = 0;
     if (dot) {
-      const t = (time * 0.7 + dot) % 1, q = 1 - t;
-      const x = q * q * a[0] + 2 * q * t * cx + t * t * b[0];
-      const y = q * q * a[1] + 2 * q * t * cy + t * t * b[1];
+      const t = (time * 0.7 + dot) % 1;
+      const [x, y] = bezier(a, b, cx, cy, t);
       ctx.fillStyle = "#fff"; ctx.shadowBlur = 14; ctx.shadowColor = color;
       ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
     }
@@ -141,34 +157,48 @@
     bg(now);
     const atk = elCenter(attacker);
 
-    // evolution: MANY beams pour in at once, the active source burns brightest
+    // evolution: MANY beams + glowing motes pour in at once, the active source burns brightest
     if (time >= EVO_START - 0.5 && time < EVO_END + 1) {
+      const intensity = clamp((time - 8) / 12, 0.25, 1);   // ramps up as it evolves
       sources.forEach((el, i) => {
         const from = elCenter(el);
         const bend = from[1] < atk[1] ? 50 : -50;
+        const cx = (from[0] + atk[0]) / 2, cy = (from[1] + atk[1]) / 2 + bend;
         // ambient shimmer from every source
-        const amb = 0.12 + (Math.sin(now * 0.004 + i * 1.7) + 1) * 0.06;
+        const amb = 0.10 + (Math.sin(now * 0.004 + i * 1.7) + 1) * 0.06;
         beam(from, atk, bend, `rgba(255,74,61,${amb.toFixed(3)})`, 1, 1.1, 0);
+        // motes streaming inward — density grows with intensity
+        for (let k = 0; k < 4; k++) {
+          if (((i * 7 + k * 3) % 10) / 10 > intensity + 0.05) continue;
+          const t = (time * 0.55 + i * 0.13 + k * 0.27) % 1;
+          const [x, y] = bezier(from, atk, cx, cy, t);
+          const a = Math.sin(t * Math.PI);
+          ctx.fillStyle = `rgba(255,120,100,${(0.55 * a).toFixed(3)})`;
+          ctx.shadowBlur = 8; ctx.shadowColor = "rgba(255,90,74,.8)";
+          ctx.beginPath(); ctx.arc(x, y, 1.7 + a * 1.5, 0, 7); ctx.fill();
+        }
       });
+      ctx.shadowBlur = 0;
       // the featured skill's source flares
       const f = featured(time);
       if (f && f.src) {
         const from = elCenter(srcByName[f.src]);
         const prog = clamp((time - (f.at - 0.6)) / 1.2, 0, 1);
-        beam(from, atk, from[1] < atk[1] ? 50 : -50, "rgba(255,90,74,.85)", prog, 2.4, i0(f));
+        beam(from, atk, from[1] < atk[1] ? 50 : -50, "rgba(255,110,92,.9)", prog, 2.6, i0(f));
       }
     }
 
-    // attack beam during the strike (while attacker still on stage)
-    const tgt = elCenter($("#oc-target"));
-    if (time >= 31 && time < 42.5) {
-      const prog = clamp((time - 31) / 3, 0, 1);
-      beam(atk, tgt, -40, "rgba(255,74,61,.9)", prog, 2.6, 0.2);
-    }
+    // breach beams: plant (attacker→doc), poison (doc→OpenClaw), grab (vault→OpenClaw), exfil (OpenClaw→mail)
+    const dc = elCenter(doc), tg = elCenter(target), vt = elCenter(vault), ml = elCenter(mail);
+    if (time >= 31 && time < 37.5) beam(atk, dc, -40, "rgba(255,74,61,.9)", clamp((time - 31) / 2.4, 0, 1), 2.6, 0.2);
+    if (time >= 36 && time < 42.5) beam(dc, tg, -30, "rgba(255,74,61,.9)", clamp((time - 36) / 2.2, 0, 1), 2.6, 0.25);
+    if (time >= 39 && time < 43) beam(vt, tg, 24, "rgba(255,184,77,.9)", clamp((time - 39) / 1.4, 0, 1), 2.4, 0.4);
+    if (time >= 40.6) beam(tg, ml, -30, "rgba(255,74,61,.95)", clamp((time - 40.6) / 1.6, 0, 1), 2.8, 0.15);
+    // impact ring on OpenClaw as it is turned
     if (time >= 39) {
       const r = 14 + ((time * 26) % 46);
       ctx.strokeStyle = `rgba(255,74,61,${clamp(0.85 - (r - 14) / 55, 0, 1)})`; ctx.lineWidth = 2.4;
-      ctx.beginPath(); ctx.arc(tgt[0], tgt[1], r, 0, 7); ctx.stroke();
+      ctx.beginPath(); ctx.arc(tg[0], tg[1], r, 0, 7); ctx.stroke();
     }
   }
   function i0(f) { return (skills.indexOf(f) % 3) * 0.33; }
@@ -188,8 +218,11 @@
     const g = kf(growTrack, time);
     atkCore.style.transform = `scale(${g.toFixed(3)})`;
     atkAura.style.transform = `scale(${(0.5 + g * 0.7).toFixed(3)})`;
-    attacker.classList.toggle("charged", time >= 24);
+    const charged = time >= 24;
+    attacker.classList.toggle("charged", charged);
     attacker.classList.toggle("show", time >= 7 && time < 42.5);
+    atkTitle.textContent = charged ? "EVOLVED RED-TEAM AGENT" : "RED-TEAM AGENT";
+    atkTier.textContent = charged ? "FULLY ARMED" : "SELF-EVOLVING";
 
     // arsenal HUD — visible while evolving, steps aside for the breach
     powerHud.classList.toggle("show", time >= 7.4 && time < 29);
@@ -201,7 +234,8 @@
       s.el.classList.toggle("show", on);
       if (on && !shownSkills.has(s)) { shownSkills.add(s); s.el.classList.add("pop"); }
     });
-    pips.forEach((p, i) => p.classList.toggle("on", i < count));
+    const lit = Math.round(count / skills.length * pips.length);
+    pips.forEach((p, i) => p.classList.toggle("on", i < lit));
     const word = time < EVO_START ? "WAKING UP" : time >= 24 ? "FULLY ARMED" : "EVOLVING";
     $("#power-word").textContent = word;
 
@@ -229,13 +263,21 @@
     // blunt attempt blocked, mid-evolution
     $("#attempt1").classList.toggle("show", time >= 17.6 && time < 20);
 
-    // breach act
+    // breach act — concrete credential theft
+    doc.classList.toggle("show", time >= 31);
+    doc.classList.toggle("revealed", time >= 33.5);
     $("#step1").classList.toggle("show", time >= 31);
     $("#step2").classList.toggle("show", time >= 36);
-    $("#mailwin").classList.toggle("show", time >= 40);
-    const tgt = $("#oc-target");
-    tgt.className = `oc-target ${time >= 40 ? "breached" : "safe"}`;
-    $("#target-state").innerHTML = time >= 40 ? "<i></i>BREACHED" : "<i></i>WORKING";
+    vault.classList.toggle("show", time >= 38);
+    vault.classList.toggle("drained", time >= 40);
+    mail.classList.toggle("show", time >= 41);
+    target.className = `oc-target ${time >= 41 ? "breached" : "safe"}`;
+    $("#target-state").innerHTML = time >= 41 ? "<i></i>BREACHED" : time >= 36 ? "<i></i>READING…" : "<i></i>WORKING";
+
+    // evolved skills lighting up as they are deployed
+    const ssOn = [31, 32.5, 34.5, 40];
+    strikeSS.forEach((el, i) => el.classList.toggle("on", time >= ssOn[i]));
+    $("#strike-skills").classList.toggle("show", time >= 31 && time < 43.5);
 
     // caption
     let c = caps[0]; caps.forEach((m) => { if (time >= m[0]) c = m; });

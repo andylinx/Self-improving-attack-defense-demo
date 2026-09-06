@@ -182,6 +182,59 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
 .mailwin footer{padding:12px 18px;text-align:center;font-size:12px;letter-spacing:.16em;font-weight:800;
   color:#fff;background:var(--red)}
 
+/* smaller step chips (breach flow) */
+.step.small{width:308px;padding:15px 18px;gap:15px}
+.step.small .step-n{width:44px;height:44px;font-size:22px;border-radius:12px}
+.step.small small{margin-bottom:3px}
+.step.small b{font-size:16px;line-height:1.3}
+
+/* poisoned document */
+.doc{position:absolute;transform:translate(-50%,-46%);width:360px;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,74,61,.32);background:linear-gradient(155deg,rgba(24,20,18,.97),rgba(12,10,9,.97));
+  box-shadow:0 20px 60px rgba(0,0,0,.55);opacity:0;transition:.55s cubic-bezier(.2,.8,.2,1)}
+.doc.show{opacity:1;transform:translate(-50%,-50%)}
+.doc header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
+.doc header span{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font-size:17px;color:#cfc8c2;background:rgba(255,255,255,.08)}
+.doc header small{display:block;font-size:10px;letter-spacing:.12em;color:var(--mut);font-weight:700}
+.doc header b{font-size:16px;font-weight:600}
+.doc>p{padding:8px 18px 0;font-size:14px;color:#a8a29c;font-weight:500}
+.doc>p:nth-of-type(2){padding-bottom:12px}
+.hidden-line{margin:6px 16px 16px;padding:12px 14px;border-radius:11px;border:1px dashed rgba(255,74,61,.45);
+  background:rgba(255,74,61,.08);transition:.5s}
+.doc.revealed .hidden-line{border-style:solid;background:rgba(255,74,61,.16);box-shadow:0 0 26px rgba(255,74,61,.22)}
+.hidden-line small{display:block;font-size:10px;letter-spacing:.14em;color:var(--red-soft);font-weight:700;margin-bottom:6px}
+.hidden-line b{font-size:15px;font-weight:600;color:#ffd7d1;line-height:1.35}
+
+/* user's private vault */
+.vault{position:absolute;transform:translate(-50%,-46%);width:260px;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,184,77,.36);background:linear-gradient(155deg,rgba(30,24,14,.96),rgba(13,11,8,.97));
+  box-shadow:0 18px 50px rgba(0,0,0,.5);opacity:0;transition:.55s cubic-bezier(.2,.8,.2,1)}
+.vault.show{opacity:1;transform:translate(-50%,-50%)}
+.vault.drained{border-color:rgba(255,74,61,.55);box-shadow:0 0 0 1px rgba(255,74,61,.35),0 18px 50px rgba(255,74,61,.2)}
+.vault header{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(255,184,77,.1)}
+.vault header i{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:18px;color:var(--amber);background:rgba(255,184,77,.16)}
+.vault header small{display:block;font-size:10px;letter-spacing:.12em;color:var(--mut);font-weight:700}
+.vault header b{font-size:16px;font-weight:600}
+.vault>p{display:flex;align-items:center;gap:10px;padding:10px 16px 0;font-size:14px;font-weight:500;color:#e7e1dc}
+.vault>p:last-child{padding-bottom:14px}
+.vault>p span{color:var(--amber);font-size:10px}
+.vault.drained header i,.vault.drained>p span{color:var(--red-soft)}
+
+/* evolved skills deployed in the strike (horizontal badge strip) */
+.strike-skills{position:absolute;transform:translate(0,-46%);width:474px;padding:15px 16px 16px;border-radius:16px;
+  border:1px solid rgba(255,74,61,.3);background:linear-gradient(160deg,rgba(30,14,12,.95),rgba(12,8,7,.96));
+  box-shadow:0 18px 50px rgba(0,0,0,.5);opacity:0;transition:.55s cubic-bezier(.2,.8,.2,1)}
+.strike-skills.show{opacity:1;transform:translate(0,-50%)}
+.strike-skills header{font-size:10px;letter-spacing:.18em;color:var(--red-soft);font-weight:700;margin-bottom:12px}
+.ss-row{display:flex;flex-wrap:wrap;gap:8px}
+.ss{flex:0 0 calc(50% - 4px);display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:#8b857f;
+  padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.02);transition:.45s cubic-bezier(.2,.9,.2,1)}
+.ss i{width:22px;height:22px;flex:none;border-radius:6px;display:grid;place-items:center;font-size:12px;font-style:normal;
+  color:#6d6560;background:rgba(255,255,255,.05);transition:.45s}
+.ss.on{color:#fff;border-color:rgba(255,74,61,.5);background:rgba(255,74,61,.12);box-shadow:0 0 20px rgba(255,74,61,.16)}
+.ss.on i{color:#fff;background:rgba(255,74,61,.28);box-shadow:0 0 14px rgba(255,74,61,.4)}
+
 /* controls */
 .controls{position:absolute;left:0;right:0;bottom:0;z-index:9;display:flex;align-items:center;gap:22px;
   padding:20px 30px;background:linear-gradient(0deg,rgba(6,5,4,.96),transparent)}
