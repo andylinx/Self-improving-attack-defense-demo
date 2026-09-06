@@ -1,6 +1,6 @@
 # Self-Evolving Red Team Demo
 
-A nine-page, presenter-controlled visual story for non-technical audiences. It shows a self-evolving red team agent discovering and combining new skills, learning from failed attempts, and ultimately causing a trusted AI personal assistant to send a confidential file externally.
+A continuous, cinematic visual story for non-technical audiences. The camera follows one red team agent as failed attempts become research, research becomes reusable skills, and the evolving skill chain ultimately causes a trusted AI personal assistant to send a confidential file externally.
 
 ## Run locally
 
@@ -12,7 +12,7 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
-Use the on-screen controls, arrow keys, or space bar to move through the story. Each page runs a short internal animation and then waits for the presenter.
+The story auto-plays along one uninterrupted timeline and pauses at five natural speaking moments. Use the on-screen control, right arrow, or space bar to continue; use the left arrow to revisit the previous moment. Add `?t=42` to the URL to inspect a specific second.
 
 ## Deployment
 
