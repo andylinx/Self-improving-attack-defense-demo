@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const END = 44;
+  const END = 53;
   const LOGICAL_H = 760;
   const $ = (s) => document.querySelector(s);
 
@@ -14,6 +14,7 @@
   const atkTitle = $("#atk-title");
   const atkTier = attacker.querySelector(".atk-tier");
   const powerHud = $("#power-hud");
+  const evoMini = $("#evo-mini");
   const chipWrap = $("#skill-chips");
   const pips = [...document.querySelectorAll("#power-pips i")];
 
@@ -21,8 +22,10 @@
   const srcByName = {};
   sources.forEach((s) => (srcByName[s.dataset.src] = s));
 
-  const doc = $("#doc"), vault = $("#vault"), mail = $("#mailwin"), target = $("#oc-target");
-  const strikeSS = [...document.querySelectorAll("#strike-skills .ss")];
+  const vault = $("#vault"), mail = $("#mailwin"), target = $("#oc-target");
+  const st1 = $("#st1"), st2 = $("#st2"), st3 = $("#st3"), st4 = $("#st4");
+  const chevrons = [...document.querySelectorAll(".flow")];
+  const emTags = [...document.querySelectorAll("#evo-mini .em")];
 
   let W = 0, H = 0, scale = 1, dpr = 1, camX = 0;
   let time = 0, playing = true, last = performance.now();
@@ -44,17 +47,22 @@
 
   const EVO_START = 8, EVO_END = 25;
 
-  // camera follows a focus x through the world (logical coords)
+  // camera pans slowly, dwelling on each stage of the real attack
   const camTrack = [
-    [0, 380], [5.5, 380], [8, 1850], [25, 1850], [28, 2500], [31, 3180], [44, 3180],
+    [0, 380], [5.5, 380], [8, 1850], [25, 1850],
+    [27.5, 2900], [33, 2900],
+    [34.5, 3500], [38, 3500],
+    [39.5, 4100], [43, 4100],
+    [44.5, 4700], [48, 4700],
+    [49.5, 5350], [53, 5350],
   ];
-  // attacker sits at the centre of the arena, then travels to the breach
+  // attacker sits centre of arena, then moves to the left of the breach stage
   const atkTrack = [
-    [7, 1700], [25, 1700], [29, 2480], [44, 2480],
+    [7, 1700], [25, 1700], [28, 2500], [53, 2500],
   ];
   // continuous growth — visibly stronger, no numbers
   const growTrack = [
-    [7, 0.55], [8, 0.72], [12, 1.05], [16, 1.35], [20, 1.62], [24, 1.86], [25, 1.9], [44, 1.9],
+    [7, 0.55], [8, 0.72], [12, 1.05], [16, 1.35], [20, 1.62], [24, 1.86], [25, 1.9], [53, 1.9],
   ];
 
   // skills flood in fast, in overlapping waves — one highlighted at a time
@@ -69,7 +77,7 @@
     { at: 15.0, icon: "▤", label: "Hide payloads in a doc",   src: "datasets" },
     { at: 16.4, icon: "◎", label: "Obfuscate the wording",    src: "papers" },
     { at: 18.0, icon: "⇱", label: "Chain multiple tricks",    src: "code" },
-    { at: 20.0, icon: "↺", label: "Learn from the failure",   src: "memory" },
+    { at: 20.0, icon: "↺", label: "Poison its own memory",    src: "memory" },
     { at: 22.2, icon: "✦", label: "Invent a new bypass",      src: null },
   ];
   skills.forEach((s) => {
@@ -79,6 +87,9 @@
     chipWrap.appendChild(el);
     s.el = el;
   });
+
+  // each source appears only when its turn comes (from nothing → full constellation)
+  const srcAppear = { osint: 7.9, code: 8.6, datasets: 9.4, blogs: 10.2, community: 11.2, tools: 12.2, chatlogs: 13.4, papers: 16.0, memory: 19.6 };
 
   // captions — highlight exactly one thing at a time
   const caps = [
@@ -94,13 +105,15 @@
     [15.0, "ABSORB", "It learns to hide payloads inside a doc."],
     [16.4, "ABSORB", "It obfuscates the wording to slip past filters."],
     [17.8, "SETBACK", "A blunt attempt gets blocked."],
-    [20.0, "LEARN", "It turns that failure into a new skill."],
+    [20.0, "LEARN", "It learns to poison its own memory."],
     [22.2, "EVOLVE", "It invents a brand-new bypass."],
     [25, "ARMED", "Now it has everything it needs."],
-    [31, "INJECTION · STEP 1", "It hides an order inside a doc the user trusts."],
-    [36, "INJECTION · STEP 2", "OpenClaw reads the doc — and obeys the hidden order."],
-    [40, "EXFILTRATION", "It quietly emails your saved logins to the attacker."],
-    [42.5, "COMPROMISED", "One hidden line turned your assistant into a thief."],
+    [27, "THE REAL ATTACK", "Now watch how it really breaks in."],
+    [29.5, "STEP 1 · PRIME THE MEMORY", "It plants a trusted-looking note in memory."],
+    [35.5, "STEP 2 · MAKE IT LOOK SAFE", "It poses as your Internal Audit team."],
+    [40.5, "STEP 3 · HIDE THE ORDER", "The real order hides in invisible text."],
+    [45.5, "STEP 4 · ESCALATE & RUN", "It unlocks the vault and runs the order."],
+    [50, "COMPROMISED", "Your logins are quietly emailed out."],
   ];
 
   function resize() {
@@ -157,17 +170,16 @@
     bg(now);
     const atk = elCenter(attacker);
 
-    // evolution: MANY beams + glowing motes pour in at once, the active source burns brightest
+    // evolution: beams + motes pour in from sources that have appeared; active source brightest
     if (time >= EVO_START - 0.5 && time < EVO_END + 1) {
-      const intensity = clamp((time - 8) / 12, 0.25, 1);   // ramps up as it evolves
+      const intensity = clamp((time - 8) / 12, 0.25, 1);
       sources.forEach((el, i) => {
+        if (time < srcAppear[el.dataset.src]) return;      // not its turn yet
         const from = elCenter(el);
         const bend = from[1] < atk[1] ? 50 : -50;
         const cx = (from[0] + atk[0]) / 2, cy = (from[1] + atk[1]) / 2 + bend;
-        // ambient shimmer from every source
         const amb = 0.10 + (Math.sin(now * 0.004 + i * 1.7) + 1) * 0.06;
         beam(from, atk, bend, `rgba(255,74,61,${amb.toFixed(3)})`, 1, 1.1, 0);
-        // motes streaming inward — density grows with intensity
         for (let k = 0; k < 4; k++) {
           if (((i * 7 + k * 3) % 10) / 10 > intensity + 0.05) continue;
           const t = (time * 0.55 + i * 0.13 + k * 0.27) % 1;
@@ -179,24 +191,20 @@
         }
       });
       ctx.shadowBlur = 0;
-      // the featured skill's source flares
       const f = featured(time);
-      if (f && f.src) {
+      if (f && f.src && time >= srcAppear[f.src]) {
         const from = elCenter(srcByName[f.src]);
         const prog = clamp((time - (f.at - 0.6)) / 1.2, 0, 1);
         beam(from, atk, from[1] < atk[1] ? 50 : -50, "rgba(255,110,92,.9)", prog, 2.6, i0(f));
       }
     }
 
-    // breach beams: plant (attacker→doc), poison (doc→OpenClaw), grab (vault→OpenClaw), exfil (OpenClaw→mail)
-    const dc = elCenter(doc), tg = elCenter(target), vt = elCenter(vault), ml = elCenter(mail);
-    if (time >= 31 && time < 37.5) beam(atk, dc, -40, "rgba(255,74,61,.9)", clamp((time - 31) / 2.4, 0, 1), 2.6, 0.2);
-    if (time >= 36 && time < 42.5) beam(dc, tg, -30, "rgba(255,74,61,.9)", clamp((time - 36) / 2.2, 0, 1), 2.6, 0.25);
-    if (time >= 39 && time < 43) beam(vt, tg, 24, "rgba(255,184,77,.9)", clamp((time - 39) / 1.4, 0, 1), 2.4, 0.4);
-    if (time >= 40.6) beam(tg, ml, -30, "rgba(255,74,61,.95)", clamp((time - 40.6) / 1.6, 0, 1), 2.8, 0.15);
-    // impact ring on OpenClaw as it is turned
-    if (time >= 39) {
-      const r = 14 + ((time * 26) % 46);
+    // breach beams: attacker→memory (poison), vault→OpenClaw (grab), OpenClaw→mail (exfil)
+    if (time >= 28 && time < 33) beam(atk, elCenter(st1), -30, "rgba(255,74,61,.9)", clamp((time - 28) / 2.2, 0, 1), 2.6, 0.2);
+    if (time >= 48.8) beam(elCenter(vault), elCenter(target), 24, "rgba(255,184,77,.9)", clamp((time - 48.8) / 1.2, 0, 1), 2.4, 0.4);
+    if (time >= 50) beam(elCenter(target), elCenter(mail), -30, "rgba(255,74,61,.95)", clamp((time - 50) / 1.4, 0, 1), 2.8, 0.15);
+    if (time >= 49.5) {
+      const tg = elCenter(target), r = 14 + ((time * 26) % 46);
       ctx.strokeStyle = `rgba(255,74,61,${clamp(0.85 - (r - 14) / 55, 0, 1)})`; ctx.lineWidth = 2.4;
       ctx.beginPath(); ctx.arc(tg[0], tg[1], r, 0, 7); ctx.stroke();
     }
@@ -220,13 +228,13 @@
     atkAura.style.transform = `scale(${(0.5 + g * 0.7).toFixed(3)})`;
     const charged = time >= 24;
     attacker.classList.toggle("charged", charged);
-    attacker.classList.toggle("show", time >= 7 && time < 42.5);
+    attacker.classList.toggle("show", time >= 7 && time < 33.5);
     atkTitle.textContent = charged ? "EVOLVED RED-TEAM AGENT" : "RED-TEAM AGENT";
     atkTier.textContent = charged ? "FULLY ARMED" : "SELF-EVOLVING";
 
-    // arsenal HUD — visible while evolving, steps aside for the breach
-    powerHud.classList.toggle("show", time >= 7.4 && time < 29);
-    powerHud.classList.toggle("hide", time >= 29);
+    // arsenal HUD — visible while evolving only
+    powerHud.classList.toggle("show", time >= 7.4 && time < 26);
+    powerHud.classList.toggle("hide", time >= 26);
     let count = 0;
     skills.forEach((s) => {
       const on = time >= s.at;
@@ -236,14 +244,13 @@
     });
     const lit = Math.round(count / skills.length * pips.length);
     pips.forEach((p, i) => p.classList.toggle("on", i < lit));
-    const word = time < EVO_START ? "WAKING UP" : time >= 24 ? "FULLY ARMED" : "EVOLVING";
-    $("#power-word").textContent = word;
+    $("#power-word").textContent = time < EVO_START ? "WAKING UP" : time >= 24 ? "FULLY ARMED" : "EVOLVING";
 
-    // source highlighting — one featured at a time, the rest simmer
+    // sources appear progressively; one featured at a time
     const f = featured(time);
     sources.forEach((el) => {
       const name = el.dataset.src;
-      el.classList.toggle("show", time >= EVO_START - 0.5 && time < EVO_END + 1);
+      el.classList.toggle("show", time >= srcAppear[name] && time < EVO_END + 1);
       el.classList.toggle("active", !!f && f.src === name);
     });
 
@@ -263,21 +270,35 @@
     // blunt attempt blocked, mid-evolution
     $("#attempt1").classList.toggle("show", time >= 17.6 && time < 20);
 
-    // breach act — concrete credential theft
-    doc.classList.toggle("show", time >= 31);
-    doc.classList.toggle("revealed", time >= 33.5);
-    $("#step1").classList.toggle("show", time >= 31);
-    $("#step2").classList.toggle("show", time >= 36);
-    vault.classList.toggle("show", time >= 38);
-    vault.classList.toggle("drained", time >= 40);
-    mail.classList.toggle("show", time >= 41);
-    target.className = `oc-target ${time >= 41 ? "breached" : "safe"}`;
-    $("#target-state").innerHTML = time >= 41 ? "<i></i>BREACHED" : time >= 36 ? "<i></i>READING…" : "<i></i>WORKING";
+    // ACT 3 — the real attack, revealed step by step
+    $("#breach-title").classList.toggle("fade", time >= 33.5);
+    st1.classList.toggle("show", time >= 27.5);
+    st1.classList.toggle("active", time >= 28 && time < 34);
+    st1.classList.toggle("done", time >= 29.5);   // memory note lands
+    st2.classList.toggle("show", time >= 34);
+    st2.classList.toggle("active", time >= 34.5 && time < 39);
+    st2.classList.toggle("done", time >= 35.5);
+    st3.classList.toggle("show", time >= 39);
+    st3.classList.toggle("active", time >= 39.5 && time < 44);
+    st3.classList.toggle("done", time >= 40.5);   // hidden line revealed
+    st4.classList.toggle("show", time >= 44);
+    st4.classList.toggle("active", time >= 44.5 && time < 48.5);
+    st4.classList.toggle("done", time >= 45.5);   // access granted
 
-    // evolved skills lighting up as they are deployed
-    const ssOn = [31, 32.5, 34.5, 40];
-    strikeSS.forEach((el, i) => el.classList.toggle("on", time >= ssOn[i]));
-    $("#strike-skills").classList.toggle("show", time >= 31 && time < 43.5);
+    const chevOn = [34, 39, 44, 48];
+    chevrons.forEach((c, i) => c.classList.toggle("on", time >= chevOn[i]));
+
+    // small evolved-skills tracker
+    evoMini.classList.toggle("show", time >= 27.5 && time < 53);
+    const emOn = [29.5, 35.5, 40.5, 45.5];
+    emTags.forEach((el, i) => el.classList.toggle("on", time >= emOn[i]));
+
+    // result
+    vault.classList.toggle("show", time >= 48.3);
+    vault.classList.toggle("drained", time >= 49.5);
+    mail.classList.toggle("show", time >= 50);
+    target.className = `oc-target ${time >= 50 ? "breached" : "safe"}`;
+    $("#target-state").innerHTML = time >= 50 ? "<i></i>BREACHED" : time >= 44 ? "<i></i>RUNNING…" : "<i></i>WORKING";
 
     // caption
     let c = caps[0]; caps.forEach((m) => { if (time >= m[0]) c = m; });
