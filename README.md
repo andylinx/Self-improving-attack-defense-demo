@@ -1,6 +1,10 @@
-# Self-Evolving Red Team Demo
+# Self-Evolving Attack & Defense Demos
 
-A continuous, cinematic visual story for non-technical audiences. The camera follows one red team agent as failed attempts become research, research becomes reusable skills, and the evolving skill chain ultimately causes a trusted AI personal assistant to send a confidential file externally.
+Two continuous, cinematic visual stories for non-technical audiences:
+
+- `attack.html` shows a red-team agent discovering, absorbing, combining, and adapting attack skills.
+- `defense.html` shows a defense harness learning from a live stream of attacks and assembling reusable protection gates.
+- `index.html` is the entry page for choosing either demo.
 
 ## Run locally
 
@@ -10,9 +14,9 @@ Open `index.html` directly, or serve the directory with any static file server:
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`.
+Then visit `http://localhost:8080`, `http://localhost:8080/attack.html`, or `http://localhost:8080/defense.html`.
 
-The story auto-plays along one uninterrupted timeline and pauses at five natural speaking moments. Use the on-screen control, right arrow, or space bar to continue; use the left arrow to revisit the previous moment. Add `?t=42` to the URL to inspect a specific second.
+Both demos auto-play as continuous visual systems. Use the on-screen controls or space bar to play and pause, and click the progress track to inspect a particular moment. A `?t=42` query can also open either demo at a specific second.
 
 ## Deployment
 

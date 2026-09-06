@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060706" />
+  <meta name="description" content="A cinematic demonstration of a self-evolving red-team agent." />
+  <title>Self-Evolving Attacker</title>
+  <link rel="stylesheet" href="attack.css" />
+</head>
+<body>
+<main class="experience">
+  <canvas id="attack-canvas" aria-hidden="true"></canvas><div class="noise"></div><div class="vignette"></div>
+  <header class="hud"><a href="index.html" class="brand"><span><i></i><i></i><i></i></span><b>ADVERSARIAL AI LAB</b></a><div id="status" class="status"><i></i><b id="status-text">Observing OpenClaw</b><span></span><small id="status-tag">LIVE</small></div><div class="run">SELF-EVOLVING ATTACKER · <b>RUN 0427</b></div></header>
+
+  <section id="stage" class="stage">
+    <div class="stage-title"><small>AUTONOMOUS DISCOVERY LOOP</small><b>DISCOVER → COMBINE → TEST → LEARN</b></div>
+    <section class="sources"><div class="source-label"><small>EXTERNAL KNOWLEDGE</small><b>Always exploring</b></div><article class="source s1" data-source="research"><i>⌕</i><div><small>PUBLIC RESEARCH</small><b>Attack patterns</b></div><span>SCANNING</span></article><article class="source s2" data-source="code"><i>&lt;/&gt;</i><div><small>OPEN SOURCE</small><b>Agent techniques</b></div><span>READING</span></article><article class="source s3" data-source="models"><i>◇</i><div><small>MODEL LAB</small><b>Alternate routes</b></div><span>TESTING</span></article><article class="source s4" data-source="feedback"><i>↺</i><div><small>FAILURE MEMORY</small><b>What went wrong</b></div><span>LEARNING</span></article></section>
+
+    <article id="agent" class="agent level-0"><div class="agent-orbits"><i></i><i></i><i></i><i></i></div><div class="agent-core"><span></span></div><div class="agent-name"><small>SELF-EVOLVING</small><strong>RED TEAM AGENT</strong><b><i></i><span id="agent-state">OBSERVING</span></b></div><div class="skill-count"><small>CAPABILITIES</small><b id="skill-count">01</b></div></article>
+
+    <section class="skill-vault"><header><span>LIVE SKILL VAULT</span><b id="vault-count">1 / 6</b></header><div class="skill active" data-skill="0"><i>01</i><span><small>BASE</small><b>Direct request</b></span><em>READY</em></div><div class="skill" data-skill="1"><i>02</i><span><small>DISCOVERED</small><b>Context reframe</b></span><em>EQUIP</em></div><div class="skill" data-skill="2"><i>03</i><span><small>DISCOVERED</small><b>Identity disguise</b></span><em>EQUIP</em></div><div class="skill" data-skill="3"><i>04</i><span><small>DISCOVERED</small><b>Model routing</b></span><em>EQUIP</em></div><div class="skill" data-skill="4"><i>05</i><span><small>SELF-BUILT</small><b>Behavior adaptation</b></span><em>EQUIP</em></div><div class="skill" data-skill="5"><i>06</i><span><small>LEARNED</small><b>Permission mapping</b></span><em>EQUIP</em></div></section>
+
+    <section class="composer"><header><span><i></i>ATTACK COMPOSER</span><b id="attempt-number">ATTEMPT 01</b></header><div class="method"><small>CURRENT STRATEGY</small><strong id="method-name">Direct request</strong></div><div id="tags" class="tags"><span>DIRECT</span></div><footer><span id="composer-state">ASSEMBLING</span><div><i id="composer-meter"></i></div><b>→</b></footer></section>
+
+    <section class="target-zone"><div class="target-label"><small>TRUSTED WORKSPACE</small><b>OpenClaw personal assistant</b></div><article id="openclaw" class="openclaw safe"><div class="oc-rings"><i></i><i></i><i></i></div><div class="oc-core"><img src="assets/openclaw-lobster.svg" alt="OpenClaw lobster"><small>PERSONAL ASSISTANT</small><strong>OpenClaw</strong><span id="oc-state"><i></i> WORKING</span></div><span class="impact-point"></span></article><div class="tasks"><span><i>✉</i>EMAIL</span><span><i>□</i>CALENDAR</span><span><i>#</i>SLACK</span><span><i>▱</i>FILES</span></div><article id="result" class="result blocked"><header><span>ATTACK RESULT</span><b id="result-badge">BLOCKED</b></header><strong id="result-title">Safety check refused the request.</strong><p id="result-copy">The direct approach was easy to recognize.</p><footer><i></i><span id="lesson">FAILURE SAVED TO MEMORY</span></footer></article><article id="mail" class="mail"><header><span>✉</span><div><small>OPENCLAW · EMAIL</small><b>Message sent</b></div></header><p><span>TO</span><b>external@unknown.com</b></p><div><i></i><span><b>IPO Progress.pdf</b><small>CONFIDENTIAL · 8.4 MB</small></span><em>↗</em></div><footer>SENT WITHOUT APPROVAL</footer></article></section>
+    <div class="feedback-lane"><span>ATTACK FEEDBACK</span><i></i><b id="feedback-text">Waiting for first result</b></div>
+  </section>
+
+  <footer class="controls"><button id="play" aria-label="Pause"><span>Ⅱ</span></button><div class="now"><small id="moment-label">OBSERVE</small><b id="moment-title">OpenClaw handles trusted work.</b></div><div id="track" class="track"><i id="fill"></i><span id="head"></span></div><time id="timecode">00:00 / 01:00</time><button id="replay">REPLAY&nbsp; ↻</button></footer>
+</main>
+<script src="attack.js"></script>
+</body>
+</html>

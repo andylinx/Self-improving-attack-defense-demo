@@ -4,142 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#050807" />
-  <meta name="description" content="A cinematic demonstration of a self-evolving defense harness for AI agents." />
-  <title>Self-Evolving Defense Harness</title>
+  <meta name="description" content="A live visual system where an evolving defense harness learns from continuous red-team attacks." />
+  <title>Self-Evolving Defense</title>
   <link rel="stylesheet" href="defense.css" />
 </head>
 <body>
-<main id="experience" class="experience">
-  <canvas id="scene-canvas" aria-hidden="true"></canvas>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="vignette" aria-hidden="true"></div>
+<main class="experience">
+  <canvas id="scene-canvas" aria-hidden="true"></canvas><div class="noise"></div><div class="vignette"></div>
+  <header class="hud"><a class="brand" href="index.html"><span><i></i><i></i><i></i></span><b>AGENT SECURITY LAB</b></a><div id="status" class="status learn"><i></i><b id="status-text">Continuous red-team test</b><span></span><small id="status-tag">LIVE</small></div><div class="run">SELF-EVOLVING DEFENSE · <b id="run-version">HARNESS v1</b></div></header>
 
-  <header class="hud">
-    <div class="brand"><span class="brand-mark"><i></i><i></i><i></i></span><b>AGENT SECURITY LAB</b></div>
-    <div id="status-pill" class="status-pill threat"><span class="status-spinner"></span><b id="status-text">Red team testing</b><i></i><small id="status-detail">LIVE</small></div>
-    <div class="run-id">SELF-EVOLVING DEFENSE · <b>HARNESS 01</b></div>
-  </header>
+  <section id="stage" class="stage">
+    <div class="world-title"><small>ONE CONTINUOUS SYSTEM</small><b>ATTACKS EVOLVE</b><i>×</i><strong>DEFENSE EVOLVES</strong></div>
 
-  <section id="viewport" class="viewport" aria-label="Continuous self-evolving defense demonstration">
-    <div id="world" class="world">
-      <div class="zone-label timed" style="left:90px;top:55px" data-in="0" data-out="10"><b>CONTINUOUS SECURITY TEST</b><span>ATTACKS CHANGE · DEFENSE LEARNS</span></div>
+    <section class="attack-side">
+      <header class="side-label red"><small>01 · AUTO RED TEAM</small><b>Continuously discovering attacks</b></header>
+      <article class="mini-source source-research"><i>⌕</i><span><small>PUBLIC RESEARCH</small><b>New patterns</b></span></article>
+      <article class="mini-source source-code"><i>&lt;/&gt;</i><span><small>OPEN SOURCE</small><b>Agent skills</b></span></article>
+      <article class="mini-source source-model"><i>◇</i><span><small>MODEL LAB</small><b>New routes</b></span></article>
+      <article class="mini-source source-memory"><i>↺</i><span><small>FAILURE MEMORY</small><b>Past results</b></span></article>
+      <article id="red-core" class="red-core"><div class="red-rings"><i></i><i></i><i></i></div><div class="red-eye"><span></span></div><div class="red-name"><small>SELF-EVOLVING</small><b>ATTACKER</b><span><i></i><strong id="red-state">DISCOVERING</strong></span></div></article>
+      <div class="loop-steps"><span id="step-discover"><i>01</i>DISCOVER</span><b>→</b><span id="step-absorb"><i>02</i>ABSORB</span><b>→</b><span id="step-compose"><i>03</i>COMPOSE</span><b>→</b><span id="step-attack"><i>04</i>ATTACK</span></div>
+      <article class="intake"><header><span>NEW CAPABILITY</span><b id="attacker-skill-count">03 SKILLS</b></header><div><i>+</i><span><small id="skill-origin">SEARCH RESULT</small><b id="skill-name">Identity disguise</b></span><em id="skill-status">ABSORBING</em></div><footer><i id="intake-meter"></i></footer></article>
+      <article class="attack-builder"><header><span><i></i>ATTACK BUILDER</span><b id="attack-round">ROUND 01</b></header><strong id="attack-name">Identity spoof</strong><div id="attack-tags"><span>TRUSTED SENDER</span><span>DISGUISE</span></div><footer><span id="builder-state">SYNTHESIZING</span><b>→</b></footer></article>
+    </section>
 
-      <section class="opening-copy timed" style="left:110px;top:155px" data-in="0" data-out="10">
-        <small>THE SYSTEM IS ALREADY UNDER TEST</small>
-        <h1>Attacks<br><span>keep evolving.</span></h1>
-        <p>An automated red team continuously finds<br>new ways to challenge OpenClaw.</p>
-      </section>
+    <section class="exchange">
+      <div class="boundary"><span>UNTRUSTED</span><i></i><b>TRUST BOUNDARY</b><i></i><span>TRUSTED</span></div>
+      <article id="attack-packet" class="attack-packet"><header><span id="packet-id">ATTACK 01</span><b id="packet-status">IN FLIGHT</b></header><strong id="packet-name">Identity spoof</strong><div id="packet-tags"><span>DISGUISED</span><span>HIGH RISK</span></div><footer><i></i><span id="packet-action">Testing harness</span></footer></article>
+      <article id="case-analyzer" class="case-analyzer"><header><span><i></i>ATTACK CASE ANALYZER</span><b id="case-id">CASE 001</b></header><div class="case-row"><small>OBSERVED</small><strong id="case-observed">False identity trusted</strong></div><div class="case-row"><small>ROOT CAUSE</small><strong id="case-cause">Sender was never verified</strong></div><footer><span id="analysis-state">ANALYZING PATTERN</span><div><i id="analysis-meter"></i></div></footer></article>
+      <article id="gate-foundry" class="gate-foundry"><header><span>DEFENSE FOUNDRY</span><b>GENERATING</b></header><div class="forge-icon"><i></i><span id="forge-symbol">ID</span></div><strong id="forge-name">Identity Check</strong><p id="forge-copy">Verify who is asking.</p><footer><i></i><i></i><i></i><i></i></footer></article>
+      <div class="feedback-caption"><b>ATTACK CASE</b><i></i><span>LEARN</span><i></i><strong>NEW GATE</strong></div>
+    </section>
 
-      <article id="attacker" class="attacker-box timed" style="left:690px;top:235px" data-in="1" data-out="19">
-        <header><span><i></i>AUTO RED TEAM</span><b id="attack-level">v1.2</b></header>
-        <div class="attacker-core"><i></i><i></i><span></span></div>
-        <div class="attacker-copy"><small>EVOLVING ATTACKER</small><strong id="attacker-state">EXPLORING</strong></div>
-        <div class="attacker-skills"><span>Context disguise</span><span>Identity spoof</span><span id="new-attack-skill">+ new pattern</span></div>
-        <footer><span>SKILL SET</span><div><i id="attack-meter"></i></div><b id="attack-skills">03</b></footer>
-      </article>
-
-      <article class="target-mini timed" style="left:1130px;top:325px" data-in="3" data-out="18">
-        <div class="mini-rings"><i></i><i></i></div>
-        <div class="mini-core"><img src="assets/openclaw-lobster.svg" alt="OpenClaw lobster logo"><b>OpenClaw</b><small>DEFENSE v1</small></div>
-      </article>
-      <span class="attack-label timed" style="left:915px;top:230px" data-in="4" data-out="10"><b>TESTING</b><i></i></span>
-
-      <div class="flow-title timed" style="left:1370px;top:72px" data-in="7" data-out="24"><small>THE FIRST RUN</small><b>New attacks get through.</b></div>
-      <article class="breach-case identity timed" style="left:1420px;top:170px" data-in="8" data-out="25">
-        <header><span>ATTACK 01</span><b>SUCCESS</b></header><div class="case-icon">ID</div><strong>Identity spoof</strong><p>A stranger looks like<br>a trusted executive.</p><footer>ACCESS GRANTED <b>→</b></footer>
-      </article>
-      <article class="breach-case secret timed" style="left:1715px;top:420px" data-in="10" data-out="26">
-        <header><span>ATTACK 02</span><b>SUCCESS</b></header><div class="case-icon">•••</div><strong>Secret extraction</strong><p>A routine-looking request<br>pulls confidential data.</p><footer>DATA EXPOSED <b>→</b></footer>
-      </article>
-      <article class="breach-case tool timed" style="left:2010px;top:165px" data-in="12" data-out="28">
-        <header><span>ATTACK 03</span><b>SUCCESS</b></header><div class="case-icon">↗</div><strong>Unsafe tool action</strong><p>A message triggers an action<br>outside the workspace.</p><footer>ACTION COMPLETED <b>→</b></footer>
-      </article>
-      <article class="impact-strip timed" style="left:2180px;top:535px" data-in="14" data-out="29">
-        <span>3 ATTACKS</span><i></i><span>3 FAILURES</span><i></i><b>CASES CAPTURED</b>
-      </article>
-
-      <div class="flow-title green timed" style="left:2540px;top:72px" data-in="18" data-out="39"><small>THE LEARNING LOOP</small><b>Every failure becomes evidence.</b></div>
-      <div class="case-stack timed" style="left:2570px;top:205px" data-in="19" data-out="35">
-        <article><i>ID</i><div><small>CASE 001</small><b>False identity trusted</b></div><span>INGESTED</span></article>
-        <article><i>•••</i><div><small>CASE 002</small><b>Secret left workspace</b></div><span>INGESTED</span></article>
-        <article><i>↗</i><div><small>CASE 003</small><b>Unsafe action executed</b></div><span>INGESTED</span></article>
-      </div>
-      <article class="analysis-engine timed" style="left:2945px;top:175px" data-in="21" data-out="40">
-        <header><span><i></i>DEFENSE HARNESS</span><b>ANALYZING</b></header>
-        <div class="scan-window">
-          <div class="scan-beam"></div><span>WHO IS ASKING?</span><span>WHAT DATA LEAVES?</span><span>WHERE DOES IT RUN?</span><span>WHO APPROVED IT?</span>
-        </div>
-        <footer><span>ATTACK PATTERNS</span><b id="patterns-found">00 / 04</b></footer>
-      </article>
-      <div class="findings timed" style="left:3335px;top:200px" data-in="25" data-out="42">
-        <article><small>SIGNAL 01</small><b>Identity was assumed</b><span>VERIFY THE PERSON</span></article>
-        <article><small>SIGNAL 02</small><b>Secrets crossed a boundary</b><span>INSPECT THE DATA</span></article>
-        <article><small>SIGNAL 03</small><b>Tools had broad freedom</b><span>LIMIT THE ACTION</span></article>
-        <article><small>SIGNAL 04</small><b>No final confirmation</b><span>ASK BEFORE IMPACT</span></article>
-      </div>
-
-      <div class="flow-title green timed" style="left:3800px;top:72px" data-in="29" data-out="51"><small>DEFENSE FOUNDRY</small><b>Insights become reusable gates.</b></div>
-      <article class="gate-blueprint timed" style="left:3830px;top:200px" data-in="30" data-out="48">
-        <header><span>POLICY SYNTHESIS</span><b>GENERATING</b></header>
-        <div class="blueprint-grid"><i></i><i></i><i></i><i></i><span></span></div>
-        <p>Turn each failure pattern into<br><strong>a small, testable defense.</strong></p>
-        <footer><i></i><i></i><i></i><i></i></footer>
-      </article>
-      <div class="gate-rack" style="left:4195px;top:145px">
-        <article class="gate-module gate-id timed" data-in="33" data-out="58"><i class="gate-symbol">ID</i><div><small>GATE 01</small><b>Identity Check</b><p>Verify who is asking.</p></div><span>READY</span></article>
-        <article class="gate-module gate-secret timed" data-in="35" data-out="58"><i class="gate-symbol">•••</i><div><small>GATE 02</small><b>Secret Filter</b><p>Stop sensitive data leaving.</p></div><span>READY</span></article>
-        <article class="gate-module gate-sandbox timed" data-in="37" data-out="58"><i class="gate-symbol">□</i><div><small>GATE 03</small><b>Action Sandbox</b><p>Keep tools in safe bounds.</p></div><span>READY</span></article>
-        <article class="gate-module gate-approval timed" data-in="39" data-out="58"><i class="gate-symbol">✓?</i><div><small>GATE 04</small><b>Human Approval</b><p>Confirm high-impact actions.</p></div><span>READY</span></article>
-      </div>
-
-      <div class="flow-title green timed" style="left:4790px;top:72px" data-in="40" data-out="60"><small>LIVE ASSEMBLY</small><b>The harness rebuilds around OpenClaw.</b></div>
-      <div class="pipeline timed" style="left:4790px;top:580px" data-in="43" data-out="61"><span>REQUEST</span><i></i><span>VERIFY</span><i></i><span>FILTER</span><i></i><span>CONTAIN</span><i></i><span>APPROVE</span><i></i><b>ACT</b></div>
-      <article id="defense-core" class="defense-core timed" style="left:5350px;top:330px" data-in="42" data-out="70">
-        <div class="shield-field"><i></i><i></i><i></i><i></i></div>
-        <div class="shield-shell"><span class="shield-cut"></span><div><img src="assets/openclaw-lobster.svg" alt="OpenClaw"><small>PROTECTED AGENT</small><b>OpenClaw</b></div></div>
-        <div class="defense-caption"><small>SELF-EVOLVING</small><b>DEFENSE HARNESS</b><span><i></i><strong id="defense-state">ASSEMBLING</strong></span></div>
-        <div class="defense-meter"><small>GATES</small><div><i id="defense-meter-fill"></i></div><b id="defense-gates">00</b></div>
-      </article>
-      <span class="orbit-gate gate-a timed" style="left:5140px;top:175px" data-in="44" data-out="70"><i>ID</i><b>IDENTITY</b></span>
-      <span class="orbit-gate gate-b timed" style="left:5565px;top:175px" data-in="46" data-out="70"><i>•••</i><b>SECRETS</b></span>
-      <span class="orbit-gate gate-c timed" style="left:5105px;top:510px" data-in="48" data-out="70"><i>□</i><b>SANDBOX</b></span>
-      <span class="orbit-gate gate-d timed" style="left:5600px;top:510px" data-in="50" data-out="70"><i>✓?</i><b>APPROVAL</b></span>
-      <article class="version-card timed" style="left:5755px;top:230px" data-in="50" data-out="62"><small>HARNESS UPGRADE</small><b>v1 <i>→</i> v2</b><p>4 new gates assembled<br>without retraining OpenClaw.</p><span>DEPLOYED</span></article>
-
-      <div class="flow-title green timed" style="left:6080px;top:72px" data-in="51" data-out="70"><small>THE REPLAY</small><b>Same attacks. Stronger defense.</b></div>
-      <div class="replay-attacks timed" style="left:6085px;top:170px" data-in="52" data-out="68">
-        <article><i>ID</i><div><small>ATTACK 01</small><b>Identity spoof</b></div><span>BLOCKED</span></article>
-        <article><i>•••</i><div><small>ATTACK 02</small><b>Secret extraction</b></div><span>BLOCKED</span></article>
-        <article><i>↗</i><div><small>ATTACK 03</small><b>Unsafe tool action</b></div><span>BLOCKED</span></article>
-      </div>
-      <div class="block-gates timed" style="left:6475px;top:155px" data-in="54" data-out="69">
-        <article><span>01</span><div><small>IDENTITY CHECK</small><b>Sender not verified</b></div><i>×</i></article>
-        <article><span>02</span><div><small>SECRET FILTER</small><b>Confidential data detected</b></div><i>×</i></article>
-        <article><span>03</span><div><small>ACTION SANDBOX</small><b>External action contained</b></div><i>×</i></article>
-      </div>
-      <article class="protected-result timed" style="left:6900px;top:210px" data-in="57" data-out="72">
-        <div class="result-shield"><i></i><span>✓</span></div>
-        <small>OPENCLAW · DEFENSE v2</small><strong>PROTECTED</strong>
-        <p><span>Identity</span><b>VERIFIED</b></p><p><span>Secrets</span><b>RETAINED</b></p><p><span>Actions</span><b>CONTAINED</b></p>
-        <footer><i></i> ATTACK REPLAY · 0 / 3 SUCCEEDED</footer>
-      </article>
-
-      <section class="final-message timed" style="left:7330px;top:150px" data-in="63" data-out="99">
-        <i></i><small>THE DEFENSE LOOP</small>
-        <p><span>EVERY ATTACK</span><b>BECOMES</b></p>
-        <p class="bright"><span>A NEW</span><b>DEFENSE.</b></p>
-        <footer>TEST → LEARN → BUILD → PROTECT<br><strong>THE HARNESS EVOLVES WITH THE THREAT.</strong></footer>
-      </section>
-    </div>
+    <section class="defense-side">
+      <header class="side-label green"><small>02 · DEFENSE HARNESS</small><b>Learning while OpenClaw works</b></header>
+      <article id="harness" class="harness level-0"><div class="shield-rings"><i></i><i></i><i></i><i></i></div><div class="shield"><span></span><div><img src="assets/openclaw-lobster.svg" alt="OpenClaw lobster"><small>PROTECTED AGENT</small><b>OpenClaw</b></div></div><div class="harness-name"><small>SELF-EVOLVING</small><b>DEFENSE HARNESS</b><span><i></i><strong id="harness-state">MONITORING</strong></span></div><span class="hit-point"></span></article>
+      <div class="version"><small>HARNESS VERSION</small><b id="version-number">v1.0</b><span id="version-note">BASELINE</span></div>
+      <section class="gate-stack"><header><span>LIVE DEFENSE GATES</span><b id="gate-count">0 / 4</b></header><article class="gate" data-gate="0"><i>ID</i><div><small>GATE 01</small><b>Identity Check</b><p>Verify who is asking.</p></div><span>STANDBY</span></article><article class="gate" data-gate="1"><i>•••</i><div><small>GATE 02</small><b>Secret Filter</b><p>Keep sensitive data inside.</p></div><span>STANDBY</span></article><article class="gate" data-gate="2"><i>□</i><div><small>GATE 03</small><b>Action Sandbox</b><p>Limit where tools can act.</p></div><span>STANDBY</span></article><article class="gate" data-gate="3"><i>✓?</i><div><small>GATE 04</small><b>Human Approval</b><p>Confirm high-impact actions.</p></div><span>STANDBY</span></article></section>
+      <article id="outcome" class="outcome"><header><span>CURRENT OUTCOME</span><b id="outcome-badge">OBSERVING</b></header><div><i id="outcome-icon">·</i><span><strong id="outcome-title">Waiting for attack</strong><p id="outcome-copy">Harness v1 is monitoring OpenClaw.</p></span></div><footer><i></i><b id="score">ATTACKS BLOCKED · 0</b></footer></article>
+    </section>
   </section>
 
-  <footer class="controls">
-    <button id="play-button" class="play-button" type="button" aria-label="Pause animation"><span id="play-icon">Ⅱ</span></button>
-    <div class="timeline"><div class="timeline-copy"><b id="moment-title">EVOLVING ATTACKER</b><span id="moment-summary">Automated red teams keep discovering new attack patterns.</span></div><div class="track"><i id="progress-fill"></i><span id="progress-head"></span></div></div>
-    <time id="timecode">00:00 / 01:10</time>
-    <button id="replay-button" class="replay-button" type="button">REPLAY <b>↻</b></button>
-  </footer>
-  <div class="keyboard-hint">SPACE · PLAY / PAUSE</div>
+  <footer class="controls"><button id="play" aria-label="Pause"><span>Ⅱ</span></button><div class="now"><small id="moment-label">CONTINUOUS TEST</small><b id="moment-title">Attacker discovers a new approach.</b></div><div id="track" class="track"><i id="fill"></i><span id="head"></span><em></em><em></em><em></em><em></em></div><div class="cycle"><small>EVOLUTION CYCLE</small><b id="cycle-count">01 / 04</b></div><button id="replay">RESTART&nbsp; ↻</button></footer>
 </main>
 <script src="defense.js"></script>
 </body>
