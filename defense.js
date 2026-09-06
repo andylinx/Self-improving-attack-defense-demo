@@ -30,10 +30,6 @@
   const gateCount = $("#gate-count");
   const blockedCount = $("#blocked-count");
 
-  // final-case tracker
-  const gateMini = $("#gate-mini");
-  const gmis = [...document.querySelectorAll(".gmi")];
-
   // desktop (illustrative case)
   const desktop = $("#desktop");
   const appStatus = $("#app-status");
@@ -96,9 +92,19 @@
   const lockAt = cycleStart.map((s) => s + 5.8);   // moment a gate locks in
   const ARENA_END = cycleStart[3] + CYCLE;         // 42.5 -> but we pan earlier
   const PAN_AT = 36;
+  const CASE_CAM = 2500;
 
   // camera: hold on the arena, then slide to the desktop case
-  const camTrack = [[0, 805], [PAN_AT, 805], [40, 2400], [END, 2400]];
+  const camTrack = [[0, 805], [PAN_AT, 805], [40, CASE_CAM], [END, CASE_CAM]];
+
+  // arena → case: the attacker and the four safeguards physically travel into the real-world test,
+  // so nothing appears out of nowhere and the same gates we forged are the ones now doing the blocking
+  const TRAVEL0 = 36, TRAVEL1 = 40;
+  const atkArena = [400, 419],  atkCase = [1965, 392];
+  const gateArena = [[940, 278], [875, 372], [875, 466], [940, 560]];
+  const gateCase  = [[2255, 210], [2255, 338], [2255, 466], [2255, 594]];
+  const fireAt = [48.5, 50, 52.2, 53.3];   // when each gate visibly bounces its step of the attack
+  const ACT_WIN = 1.0;                       // how long a gate stays in its "actively blocking" flare
 
   function resize() {
     const r = exp.getBoundingClientRect();
@@ -200,16 +206,32 @@
       }
     }
 
-    // final case: the malicious email flies into the inbox (short trail, fades before pan settles)
-    if (time >= 43 && time < 44.2) {
-      const b = rc(inboxEl);
-      const a = [b[0] - 210, b[1] - 30];
-      const fade = 1 - clamp((time - 43.6) / 0.6, 0, 1);
-      beam(a, b, -22, `rgba(255,90,74,${(0.9 * fade).toFixed(2)})`, clamp((time - 43) / 1.1, 0, 1), 2.2, 0.2);
+    // ===== illustrative case: the attacker (left) fires through the safeguard wall =====
+    if (time >= 43 && time < END) {
+      const atk = rc(atkCore);
+      // the malicious email itself flies from the attacker onto the malicious row
+      if (time >= 43 && time < 44.4) {
+        const b = rc(mails[2]);
+        beam(atk, b, -30, "rgba(255,90,74,.85)", clamp((time - 43) / 1.0, 0, 1), 2.4, 0.2);
+      }
+      // each safeguard: the attack drives in (red), then visibly deflects off the gate (green).
+      // one repeated language for all four steps; the beam always reaches the gate's ✕ badge.
+      fireAt.forEach((ft, i) => {
+        if (time < ft || time >= ft + ACT_WIN) return;
+        const gb = gates[i].getBoundingClientRect();
+        const edge = [gb.left - 4, gb.top + gb.height / 2];
+        const bounced = time >= ft + 0.32;
+        beam(atk, edge, -18, bounced ? "rgba(155,225,93,.95)" : "rgba(255,80,66,.95)", 1, 2.6, 0);
+      });
     }
   }
 
   function place(el, from, to, p) {
+    el.style.left = `${from[0] + (to[0] - from[0]) * p}px`;
+    el.style.top = `${from[1] + (to[1] - from[1]) * p}px`;
+  }
+  // like place(), but for world-space DOM (from/to are logical coords)
+  function setPos(el, from, to, p) {
     el.style.left = `${from[0] + (to[0] - from[0]) * p}px`;
     el.style.top = `${from[1] + (to[1] - from[1]) * p}px`;
   }
@@ -224,8 +246,14 @@
     const nOn = gatesOn();
     const inArena = time < 38;
 
+    // the attacker + the four safeguards slide from the arena into the real-world case
+    const travel = smooth((time - TRAVEL0) / (TRAVEL1 - TRAVEL0));
+    setPos(attacker, atkArena, atkCase, travel);
+    gates.forEach((g, i) => setPos(g, gateArena[i], gateCase[i], travel));
+
     attacker.classList.toggle("show", time >= 2);
-    harness.classList.toggle("show", time >= 1);
+    // OpenClaw's arena avatar hands off to the real desktop as we leave the arena
+    harness.classList.toggle("show", time >= 1 && time < 38.5);
     $("#arena-title").classList.toggle("show", time >= 0.6 && time < 5.2);
 
     // ---- gates: forged one at a time ----
@@ -318,10 +346,12 @@
     desktop.classList.toggle("show", time >= 39.5);
     desktop.classList.toggle("safe", time >= 52.4);
 
-    gateMini.classList.toggle("show", time >= 44.5 && time < 57.8);
-    // fire in tracker order: Identity → Instruction → Secret → Trusted
-    const gmiOn = [48.5, 50, 52.2, 53.2];
-    gmis.forEach((el, i) => el.classList.toggle("fire", time >= gmiOn[i]));
+    // the real gate cards (now a wall beside the desktop) light up one by one as each step is blocked,
+    // then keep a red ✕ block-badge so the whole wall shows every stopped step at the finale
+    gates.forEach((g, i) => {
+      g.classList.toggle("active", time >= fireAt[i] && time < fireAt[i] + ACT_WIN);
+      g.classList.toggle("did-block", time >= fireAt[i] + 0.3);
+    });
 
     // inbox summarising
     mails[0].classList.toggle("summarized", time >= 41.5);
@@ -354,10 +384,10 @@
 
     appStatus.innerHTML = time >= 55 ? "<i></i>SAFE ✓" : time >= 47 ? "<i></i>DEFENDING…" : "<i></i>WORKING";
 
-    // the malicious email flies in
-    if (time >= 43 && time < 44) {
-      const b = rc(inboxEl);
-      place(flyMail, [b[0] - 210, b[1] - 30], b, smooth((time - 43) / 1));
+    // the malicious email flies in — straight from the attacker onto the malicious row
+    if (time >= 43 && time < 44.2) {
+      const b = rc(mails[2]);
+      place(flyMail, rc(atkCore), b, smooth((time - 43) / 1.2));
       flyMail.classList.add("show");
     } else flyMail.classList.remove("show");
   }
