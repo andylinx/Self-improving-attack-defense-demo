@@ -6,8 +6,62 @@
   <meta name="theme-color" content="#050706" />
   <title>Self-Evolving Agent Security</title>
   <style>
-    :root{color-scheme:dark;--g:#91ff24;--r:#ff4a3d}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050706;color:#edf3ef;font-family:Inter,"Helvetica Neue",system-ui,sans-serif}.page{min-height:100%;display:grid;place-items:center;position:relative;background:radial-gradient(circle at 50% 42%,rgba(111,193,70,.07),transparent 35%),linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),#050706;background-size:auto,80px 80px,80px 80px}.page:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.6))}.wrap{position:relative;z-index:2;width:min(1020px,88vw)}small{color:#78847c;font-size:9px;font-weight:700;letter-spacing:.2em}h1{margin:18px 0 42px;font-size:clamp(42px,6vw,76px);line-height:.92;letter-spacing:-.055em;font-weight:520}h1 span{color:var(--g)}.demos{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{position:relative;min-height:265px;padding:28px;text-decoration:none;color:inherit;border:1px solid rgba(255,255,255,.13);background:linear-gradient(145deg,rgba(18,23,20,.96),rgba(7,10,8,.97));overflow:hidden;transition:.35s cubic-bezier(.18,.78,.18,1)}.card:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.025),transparent);transform:translateX(-100%);transition:.6s}.card:hover{transform:translateY(-5px);border-color:rgba(145,255,36,.45);box-shadow:0 28px 80px rgba(0,0,0,.45)}.card:hover:before{transform:translateX(100%)}.card.red:hover{border-color:rgba(255,74,61,.48)}.num{display:block;color:#526057;font-size:8px;letter-spacing:.16em}.card h2{margin:58px 0 10px;font-size:27px;font-weight:520}.card.red h2{color:#ff756b}.card.green h2{color:var(--g)}.card p{margin:0;color:#77827b;font-size:10px;line-height:1.6}.arrow{position:absolute;right:25px;top:23px;font-size:24px;color:#7c8880}.line{position:absolute;left:28px;right:28px;bottom:25px;height:1px;background:rgba(255,255,255,.08)}.line i{display:block;width:34%;height:100%;background:var(--r);box-shadow:0 0 8px var(--r)}.green .line i{background:var(--g);box-shadow:0 0 8px var(--g)}@media(max-width:700px){.demos{grid-template-columns:1fr}.card{min-height:190px}.card h2{margin-top:35px}h1{margin-bottom:28px}}
+    :root{color-scheme:dark;--g:#9be15d;--r:#ff4a3d}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow:hidden;background:#050706;color:#eef3ec;
+      font-family:"Inter","Helvetica Neue",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    .page{min-height:100%;display:grid;place-items:center;position:relative;
+      background:radial-gradient(circle at 50% 40%,rgba(155,225,93,.06),transparent 40%),
+      linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px),#050706;
+      background-size:auto,84px 84px,84px 84px}
+    .page:after{content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,.62))}
+    .wrap{position:relative;z-index:2;width:min(1060px,90vw)}
+    .tag{font-size:12px;letter-spacing:.3em;color:#7f8a80;font-weight:700}
+    h1{margin:20px 0 46px;font-size:clamp(46px,6.6vw,86px);line-height:.94;letter-spacing:-.045em;font-weight:600}
+    h1 .r{color:var(--r)}h1 .g{color:var(--g)}
+    .demos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .card{position:relative;display:block;min-height:288px;padding:30px;text-decoration:none;color:inherit;
+      border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden;
+      background:linear-gradient(150deg,rgba(20,23,20,.96),rgba(8,10,8,.97));
+      transition:.35s cubic-bezier(.18,.78,.18,1)}
+    .card:hover{transform:translateY(-6px);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+    .card.red:hover{border-color:rgba(255,74,61,.5)}
+    .card.green:hover{border-color:rgba(155,225,93,.5)}
+    .num{font-size:11px;letter-spacing:.2em;color:#556055;font-weight:700}
+    .ico{position:absolute;right:26px;top:26px;width:64px;height:64px;border-radius:16px;display:grid;place-items:center}
+    .card.red .ico{background:rgba(255,74,61,.12);box-shadow:0 0 34px rgba(255,74,61,.2)}
+    .card.green .ico{background:rgba(155,225,93,.12);box-shadow:0 0 34px rgba(155,225,93,.2)}
+    .ico img{width:40px;height:40px;image-rendering:pixelated}
+    .card h2{margin:64px 0 12px;font-size:30px;font-weight:600;letter-spacing:-.02em}
+    .card.red h2{color:#ff8b7f}.card.green h2{color:var(--g)}
+    .card p{font-size:16px;line-height:1.55;color:#8b948a;max-width:340px}
+    .go{position:absolute;left:30px;bottom:26px;font-size:13px;letter-spacing:.1em;font-weight:700;color:#7f8a80}
+    .card.red:hover .go{color:#ff8b7f}.card.green:hover .go{color:var(--g)}
+    @media(max-width:720px){.demos{grid-template-columns:1fr}.card{min-height:170px}.card h2{margin-top:48px}}
   </style>
 </head>
-<body><main class="page"><section class="wrap"><small>SELF-EVOLVING AGENT SECURITY</small><h1>Attack learns.<br><span>Defense evolves.</span></h1><div class="demos"><a class="card red" href="attack.html"><span class="num">01 · OFFENSE</span><span class="arrow">→</span><h2>Self-Evolving Attacker</h2><p>Watch a red-team agent discover, combine<br>and adapt new attack skills.</p><span class="line"><i></i></span></a><a class="card green" href="defense.html"><span class="num">02 · DEFENSE</span><span class="arrow">→</span><h2>Self-Evolving Defense</h2><p>Watch a defense harness learn from attacks<br>and assemble stronger protection.</p><span class="line"><i></i></span></a></div></section></main></body>
+<body>
+  <main class="page"><section class="wrap">
+    <div class="tag">SELF-EVOLVING AGENT SECURITY</div>
+    <h1><span class="r">Attackers</span> learn.<br><span class="g">Defenses</span> evolve.</h1>
+    <div class="demos">
+      <a class="card red" href="attack.html">
+        <span class="num">01 · OFFENSE</span>
+        <span class="ico"><img src="assets/attacker-skull.svg" alt="" /></span>
+        <h2>The Evolving Attacker</h2>
+        <p>Watch a red-team agent absorb new skills, learn from failure, and grow strong enough to break in.</p>
+        <span class="go">WATCH →</span>
+      </a>
+      <a class="card green" href="defense.html">
+        <span class="num">02 · DEFENSE</span>
+        <span class="ico"><img src="assets/openclaw-lobster.svg" alt="" /></span>
+        <h2>The Evolving Defense</h2>
+        <p>Watch a defense harness learn a new safeguard from every attack until nothing gets through.</p>
+        <span class="go">WATCH →</span>
+      </a>
+    </div>
+  </section></main>
+</body>
 </html>

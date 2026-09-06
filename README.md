@@ -1,27 +1,33 @@
 # Self-Evolving Attack & Defense Demos
 
-Two continuous, cinematic visual stories for non-technical audiences:
+Two cinematic, non-technical visual stories about AI-agent security.
 
-- `attack.html` shows a red-team agent discovering, absorbing, combining, and adapting attack skills.
-- `defense.html` shows a defense harness learning from a live stream of attacks and assembling reusable protection gates.
-- `index.html` is the entry page for choosing either demo.
+- `attack.html` — a red-team agent travels along a timeline, absorbing skills from the
+  internet and from its own failures, visibly growing stronger, then breaches OpenClaw in
+  two simple steps.
+- `defense.html` — a static split screen: a self-evolving attacker on the left, and a
+  defense harness on the right that learns a new safeguard from every successful attack
+  until nothing gets through.
+- `index.html` — the entry page.
 
 ## Run locally
-
-Open `index.html` directly, or serve the directory with any static file server:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`, `http://localhost:8080/attack.html`, or `http://localhost:8080/defense.html`.
+Then open `http://localhost:8080`.
 
-Both demos auto-play as continuous visual systems. Use the on-screen controls or space bar to play and pause, and click the progress track to inspect a particular moment. A `?t=42` query can also open either demo at a specific second.
+Both demos auto-play. Use the on-screen controls or the space bar to play and pause, and
+click the progress track to jump to any moment. Left and right arrows scrub. A `?t=42`
+query opens either demo at a specific second.
+
+## Assets
+
+The pixel lobster (`assets/openclaw-lobster.svg`) is the OpenClaw assistant. The pixel
+skull (`assets/attacker-skull.svg`) is the red-team attacker.
 
 ## Deployment
 
-The included GitHub Actions workflow publishes the site to GitHub Pages whenever `main` is updated.
-
-## Asset attribution
-
-The OpenClaw pixel lobster is sourced from the public [OpenClaw repository](https://github.com/openclaw/openclaw/blob/main/docs/assets/pixel-lobster.svg), which is distributed under the repository's MIT license.
+The included GitHub Actions workflow publishes the site to GitHub Pages on every push to
+`main`.
