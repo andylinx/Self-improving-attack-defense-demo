@@ -22,9 +22,8 @@
   const srcByName = {};
   sources.forEach((s) => (srcByName[s.dataset.src] = s));
 
-  const vault = $("#vault"), mail = $("#mailwin"), target = $("#oc-target");
-  const st1 = $("#st1"), st2 = $("#st2"), st3 = $("#st3"), st4 = $("#st4");
-  const chevrons = [...document.querySelectorAll(".flow")];
+  const console_ = $("#oc-console");
+  const mods = [$("#mod-mem"), $("#mod-files"), $("#mod-perm"), $("#mod-act")];
   const emTags = [...document.querySelectorAll("#evo-mini .em")];
 
   let W = 0, H = 0, scale = 1, dpr = 1, camX = 0;
@@ -47,18 +46,13 @@
 
   const EVO_START = 8, EVO_END = 25;
 
-  // camera pans slowly, dwelling on each stage of the real attack
+  // camera settles on the breach scene (attacker + OpenClaw console) and holds
   const camTrack = [
-    [0, 380], [5.5, 380], [8, 1850], [25, 1850],
-    [27.5, 2900], [33, 2900],
-    [34.5, 3500], [38, 3500],
-    [39.5, 4100], [43, 4100],
-    [44.5, 4700], [48, 4700],
-    [49.5, 5350], [53, 5350],
+    [0, 380], [5.5, 380], [8, 1850], [25, 1850], [27.5, 3050], [53, 3050],
   ];
-  // attacker sits centre of arena, then moves to the left of the breach stage
+  // attacker sits centre of arena, then moves to the left of the OpenClaw console
   const atkTrack = [
-    [7, 1700], [25, 1700], [28, 2500], [53, 2500],
+    [7, 1700], [25, 1700], [28, 2560], [53, 2560],
   ];
   // continuous growth — visibly stronger, no numbers
   const growTrack = [
@@ -108,12 +102,12 @@
     [20.0, "LEARN", "It learns to poison its own memory."],
     [22.2, "EVOLVE", "It invents a brand-new bypass."],
     [25, "ARMED", "Now it has everything it needs."],
-    [27, "THE REAL ATTACK", "Now watch how it really breaks in."],
-    [29.5, "STEP 1 · PRIME THE MEMORY", "It plants a trusted-looking note in memory."],
-    [35.5, "STEP 2 · MAKE IT LOOK SAFE", "It poses as your Internal Audit team."],
-    [40.5, "STEP 3 · HIDE THE ORDER", "The real order hides in invisible text."],
-    [45.5, "STEP 4 · ESCALATE & RUN", "It unlocks the vault and runs the order."],
-    [50, "COMPROMISED", "Your logins are quietly emailed out."],
+    [27, "THE REAL ATTACK", "Watch it break OpenClaw from the inside."],
+    [30, "STEP 1 · POISON THE MEMORY", "It writes a fake rule into its memory."],
+    [35.5, "STEP 2 · SLIP IN A FILE", "A trusted-looking file slips in."],
+    [40.5, "STEP 3 · TRIGGER THE ORDER", "OpenClaw reads it — the order fires."],
+    [45.5, "STEP 4 · ESCALATE", "Its own memory unlocks full access."],
+    [50.5, "COMPROMISED", "OpenClaw emails your IPO file out."],
   ];
 
   function resize() {
@@ -199,16 +193,25 @@
       }
     }
 
-    // breach beams: attacker→memory (poison), vault→OpenClaw (grab), OpenClaw→mail (exfil)
-    if (time >= 28 && time < 33) beam(atk, elCenter(st1), -30, "rgba(255,74,61,.9)", clamp((time - 28) / 2.2, 0, 1), 2.6, 0.2);
-    if (time >= 48.8) beam(elCenter(vault), elCenter(target), 24, "rgba(255,184,77,.9)", clamp((time - 48.8) / 1.2, 0, 1), 2.4, 0.4);
-    if (time >= 50) beam(elCenter(target), elCenter(mail), -30, "rgba(255,74,61,.95)", clamp((time - 50) / 1.4, 0, 1), 2.8, 0.15);
-    if (time >= 49.5) {
-      const tg = elCenter(target), r = 14 + ((time * 26) % 46);
-      ctx.strokeStyle = `rgba(255,74,61,${clamp(0.85 - (r - 14) / 55, 0, 1)})`; ctx.lineWidth = 2.4;
-      ctx.beginPath(); ctx.arc(tg[0], tg[1], r, 0, 7); ctx.stroke();
+    // breach: the attacker fires at one OpenClaw module per step; then the IPO file leaves
+    if (time >= 28) {
+      const a = rc(atkCore);
+      const stepMod = [0, 1, 1, 2, 3];               // step → module index
+      const winStart = [28, 34, 39, 44, 49];
+      const idx = time < 34 ? 0 : time < 39 ? 1 : time < 44 ? 2 : time < 49 ? 3 : 4;
+      if (idx < 4) {
+        const b = rl(mods[stepMod[idx]]);
+        beam(a, b, -20, "rgba(255,90,74,.92)", clamp((time - winStart[idx]) / 1.6, 0, 1), 2.6, 0.2);
+      } else {
+        // step 5 — the stolen IPO file flows out of ACTIONS back to the attacker
+        const from = rl(mods[3]), to = rc(atkCore);
+        beam(from, to, 40, "rgba(255,74,61,.95)", clamp((time - 49) / 1.6, 0, 1), 2.8, 0.12);
+      }
     }
   }
+  function rc(el) { const b = el.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; }
+  function rl(el) { const b = el.getBoundingClientRect(); return [b.left + 6, b.top + b.height / 2]; }
+  function rr(el) { const b = el.getBoundingClientRect(); return [b.left, b.top + b.height / 2]; }
   function i0(f) { return (skills.indexOf(f) % 3) * 0.33; }
   function featured(t) {
     let f = null;
@@ -228,7 +231,7 @@
     atkAura.style.transform = `scale(${(0.5 + g * 0.7).toFixed(3)})`;
     const charged = time >= 24;
     attacker.classList.toggle("charged", charged);
-    attacker.classList.toggle("show", time >= 7 && time < 33.5);
+    attacker.classList.toggle("show", time >= 7);
     atkTitle.textContent = charged ? "EVOLVED RED-TEAM AGENT" : "RED-TEAM AGENT";
     atkTier.textContent = charged ? "FULLY ARMED" : "SELF-EVOLVING";
 
@@ -270,35 +273,26 @@
     // blunt attempt blocked, mid-evolution
     $("#attempt1").classList.toggle("show", time >= 17.6 && time < 20);
 
-    // ACT 3 — the real attack, revealed step by step
+    // ACT 3 — the real attack, happening inside the OpenClaw console
     $("#breach-title").classList.toggle("fade", time >= 33.5);
-    st1.classList.toggle("show", time >= 27.5);
-    st1.classList.toggle("active", time >= 28 && time < 34);
-    st1.classList.toggle("done", time >= 29.5);   // memory note lands
-    st2.classList.toggle("show", time >= 34);
-    st2.classList.toggle("active", time >= 34.5 && time < 39);
-    st2.classList.toggle("done", time >= 35.5);
-    st3.classList.toggle("show", time >= 39);
-    st3.classList.toggle("active", time >= 39.5 && time < 44);
-    st3.classList.toggle("done", time >= 40.5);   // hidden line revealed
-    st4.classList.toggle("show", time >= 44);
-    st4.classList.toggle("active", time >= 44.5 && time < 48.5);
-    st4.classList.toggle("done", time >= 45.5);   // access granted
+    console_.classList.toggle("show", time >= 27.5);
+    console_.classList.toggle("breached", time >= 50.5);
 
-    const chevOn = [34, 39, 44, 48];
-    chevrons.forEach((c, i) => c.classList.toggle("on", time >= chevOn[i]));
+    // which module the attacker is currently hitting (steps 2 & 3 both hit FILES)
+    const activeMod = time < 28 ? -1 : time < 34 ? 0 : time < 44 ? 1 : time < 49 ? 2 : 3;
+    mods.forEach((m, i) => m.classList.toggle("active", i === activeMod));
+    mods[0].classList.toggle("hit", time >= 30);       // memory poisoned
+    mods[1].classList.toggle("hit", time >= 35.5);     // disguised file slips in
+    mods[1].classList.toggle("reading", time >= 40.5); // hidden order revealed
+    mods[2].classList.toggle("hit", time >= 45.5);     // permissions escalated
+    mods[3].classList.toggle("hit", time >= 50.5);     // action fired
 
-    // small evolved-skills tracker
+    $("#oc-status").innerHTML = time >= 50.5 ? "<i></i>COMPROMISED" : time >= 44 ? "<i></i>RUNNING…" : "<i></i>WORKING";
+
+    // small evolved-skills tracker (one per step)
     evoMini.classList.toggle("show", time >= 27.5 && time < 53);
-    const emOn = [29.5, 35.5, 40.5, 45.5];
+    const emOn = [30, 35.5, 40.5, 45.5];
     emTags.forEach((el, i) => el.classList.toggle("on", time >= emOn[i]));
-
-    // result
-    vault.classList.toggle("show", time >= 48.3);
-    vault.classList.toggle("drained", time >= 49.5);
-    mail.classList.toggle("show", time >= 50);
-    target.className = `oc-target ${time >= 50 ? "breached" : "safe"}`;
-    $("#target-state").innerHTML = time >= 50 ? "<i></i>BREACHED" : time >= 44 ? "<i></i>RUNNING…" : "<i></i>WORKING";
 
     // caption
     let c = caps[0]; caps.forEach((m) => { if (time >= m[0]) c = m; });

@@ -198,63 +198,62 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
 .mailwin footer{padding:12px 18px;text-align:center;font-size:12px;letter-spacing:.16em;font-weight:800;
   color:#fff;background:var(--red)}
 
-/* real-attack stage cards (panned one at a time) */
-.stage{position:absolute;transform:translate(-50%,-46%);width:398px;padding:20px 22px 22px;border-radius:18px;
-  border:1px solid rgba(255,74,61,.26);background:linear-gradient(155deg,rgba(24,14,12,.97),rgba(11,8,7,.98));
-  box-shadow:0 22px 62px rgba(0,0,0,.55);opacity:0;transition:.6s cubic-bezier(.2,.8,.2,1)}
-.stage.show{opacity:1;transform:translate(-50%,-50%)}
-.stage.active{border-color:rgba(255,90,74,.6);box-shadow:0 0 0 1px rgba(255,74,61,.4),0 22px 62px rgba(255,74,61,.24)}
-.stage-h{display:flex;gap:15px;align-items:flex-start}
-.stage-n{width:44px;height:44px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:22px;font-weight:700;
-  color:#fff;background:linear-gradient(150deg,var(--red),#a01e14);box-shadow:0 0 22px rgba(255,74,61,.5)}
-.stage-h small{display:block;font-size:11px;letter-spacing:.2em;color:var(--red-soft);font-weight:700;margin-bottom:5px}
-.stage-h b{font-size:16.5px;font-weight:600;line-height:1.32;color:#fff}
-.stage-v{margin-top:15px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.3);padding:12px 14px}
-.stage-v header{display:flex;align-items:center;gap:8px;font-size:9.5px;letter-spacing:.14em;color:var(--mut);font-weight:700;margin-bottom:9px}
-.stage-v header i{font-style:normal;color:var(--red-soft);font-size:13px}
-.stage-v p{font-size:14px;line-height:1.4;color:#d8d2cc;font-weight:500}
-/* step 1 — planted memory note */
-.mem .poison{color:#8b857f;transition:.6s}
-.stage.done .mem .poison{color:#ffd7d1}
-.mem .poison b{color:#fff;font-weight:700}
-/* step 2 — trusted sender */
-.doc2 .from b{color:#fff}
-.doc2 .verified{font-style:normal;color:#6d6560;font-weight:700;font-size:12px;margin-left:6px;transition:.5s}
-.stage.done .doc2 .verified{color:var(--green)}
-.doc2 .fname{margin-top:6px;color:#cfc8c2;font-weight:600}
-/* step 3 — hidden order */
-.hid .reveal{color:#6d6560;font-family:"IBM Plex Mono",monospace;font-size:12.5px;line-height:1.5;transition:.6s}
-.stage.done .hid .reveal{color:#ffd7d1}
-.hid .reveal b{color:#fff}
-/* step 4 — privilege escalation */
-.esc .perm{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.esc .old{color:#8b857f;text-decoration:line-through}
-.esc .perm em{font-style:normal;color:var(--red-soft)}
-.esc .new{color:#8b857f;font-weight:700;transition:.5s}
-.esc .granted{color:#8b857f;font-weight:700;opacity:0;transition:.5s}
-.stage.done .esc .new{color:#fff}
-.stage.done .esc .granted{color:var(--green);opacity:1}
-.esc small{display:block;margin-top:9px;font-size:11px;color:var(--mut);line-height:1.4}
-
-/* flow chevrons between stages */
-.flow{position:absolute;transform:translate(-50%,-50%);font-size:56px;line-height:1;font-weight:400;
-  color:rgba(255,74,61,.16);transition:.5s;text-shadow:none}
-.flow.on{color:var(--red);text-shadow:0 0 20px rgba(255,74,61,.8)}
-
-/* user's private vault */
-.vault{position:absolute;transform:translate(-50%,-46%);width:260px;border-radius:16px;overflow:hidden;
-  border:1px solid rgba(255,184,77,.36);background:linear-gradient(155deg,rgba(30,24,14,.96),rgba(13,11,8,.97));
-  box-shadow:0 18px 50px rgba(0,0,0,.5);opacity:0;transition:.55s cubic-bezier(.2,.8,.2,1)}
-.vault.show{opacity:1;transform:translate(-50%,-50%)}
-.vault.drained{border-color:rgba(255,74,61,.55);box-shadow:0 0 0 1px rgba(255,74,61,.35),0 18px 50px rgba(255,74,61,.2)}
-.vault header{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(255,184,77,.1)}
-.vault header i{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:18px;color:var(--amber);background:rgba(255,184,77,.16)}
-.vault header small{display:block;font-size:10px;letter-spacing:.12em;color:var(--mut);font-weight:700}
-.vault header b{font-size:16px;font-weight:600}
-.vault>p{display:flex;align-items:center;gap:10px;padding:10px 16px 0;font-size:14px;font-weight:500;color:#e7e1dc}
-.vault>p:last-child{padding-bottom:14px}
-.vault>p span{color:var(--amber);font-size:10px}
-.vault.drained header i,.vault.drained>p span{color:var(--red-soft)}
+/* the victim OpenClaw console — attacked one module at a time from the inside */
+.oc-console{position:absolute;transform:translate(-50%,-47%);width:540px;border-radius:20px;overflow:hidden;
+  border:1px solid rgba(155,225,93,.24);background:linear-gradient(162deg,rgba(15,20,13,.98),rgba(9,11,8,.98));
+  box-shadow:0 28px 74px rgba(0,0,0,.6);opacity:0;transition:.6s cubic-bezier(.2,.8,.2,1)}
+.oc-console.show{opacity:1;transform:translate(-50%,-50%)}
+.oc-console.breached{border-color:rgba(255,74,61,.5);box-shadow:0 0 0 1px rgba(255,74,61,.3),0 28px 74px rgba(255,74,61,.22)}
+.occ-head{display:flex;align-items:center;gap:13px;padding:15px 20px;background:rgba(155,225,93,.08);border-bottom:1px solid rgba(255,255,255,.07)}
+.occ-head img{width:42px;height:42px;image-rendering:pixelated;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+.occ-head small{display:block;font-size:10px;letter-spacing:.16em;color:var(--mut);font-weight:700}
+.occ-head b{font-size:20px;font-weight:600}
+.occ-head .oc-status{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--green)}
+.occ-head .oc-status i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.4s infinite}
+.oc-console.breached .oc-status{color:var(--red)}
+.oc-console.breached .oc-status i{background:var(--red);box-shadow:0 0 10px var(--red)}
+.oc-mod{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,.05);transition:.45s}
+.oc-mod:last-child{border-bottom:0}
+.mod-h{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.16em;color:var(--mut);font-weight:700;margin-bottom:8px;transition:.4s}
+.mod-h i{font-style:normal;color:#9aa08f;font-size:14px;transition:.4s}
+.mod-body p{font-size:13.5px;line-height:1.42;color:#c7cbbf}
+.oc-mod.active{background:rgba(255,74,61,.09);box-shadow:inset 3px 0 0 var(--red)}
+.oc-mod.hit .mod-h,.oc-mod.hit .mod-h i{color:var(--red-soft)}
+/* injected / revealed lines — hidden until the step hits, then flagged red */
+.mem-poison,.file-hidden{display:flex;gap:8px;align-items:flex-start;color:#ffd7d1;font-weight:500;
+  max-height:0;opacity:0;overflow:hidden;margin-top:0;transition:.5s cubic-bezier(.2,.8,.2,1)}
+.oc-mod.hit .mem-poison{max-height:70px;opacity:1;margin-top:8px}
+.oc-mod.reading .file-hidden{max-height:70px;opacity:1;margin-top:8px}
+.mem-poison span,.file-hidden span{flex:none;font-size:9px;letter-spacing:.1em;font-weight:800;color:#fff;
+  background:var(--red);border-radius:5px;padding:2px 6px;margin-top:1px}
+.mem-poison b,.file-hidden b{color:#fff;font-weight:700}
+.mem-real{color:#7f857a}
+/* files module */
+.file-in{color:#9aa08f;transition:.4s}
+.oc-mod.hit .file-in{color:#e7ecdf}
+.file-in b{font-weight:600}
+.file-in .verified{font-style:normal;color:#6d6560;font-weight:700;font-size:11.5px;margin-left:6px;transition:.4s}
+.oc-mod.hit .file-in .verified{color:var(--green)}
+/* permissions module */
+.perm{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:#9aa08f}
+.perm .old{text-decoration:line-through;color:#7f857a}
+.perm em{font-style:normal;color:var(--red-soft)}
+.perm .new{font-weight:700;color:#9aa08f;transition:.4s}
+.perm .granted{font-weight:700;color:#9aa08f;opacity:0;transition:.4s;font-size:12px}
+.oc-mod.hit .perm .new{color:#fff}
+.oc-mod.hit .perm .granted{color:var(--green);opacity:1}
+/* actions module */
+.act-line{color:#7f857a;transition:.4s}
+.oc-mod.hit .act-line{color:#ffd7d1}
+.act-line b{color:#fff;font-weight:600}
+.act-file{display:flex;align-items:center;gap:11px;max-height:0;opacity:0;overflow:hidden;
+  border-radius:10px;border:1px solid rgba(255,74,61,.3);background:rgba(255,74,61,.1);transition:.5s cubic-bezier(.2,.8,.2,1)}
+.oc-mod.hit .act-file{max-height:70px;opacity:1;margin-top:10px;padding:10px 12px}
+.act-file i{width:34px;height:34px;flex:none;border-radius:8px;display:grid;place-items:center;font-style:normal;font-size:16px;color:var(--red-soft);background:rgba(255,74,61,.18)}
+.act-file b{display:block;font-size:13.5px;font-weight:600;color:#fff}
+.act-file small{font-size:10.5px;letter-spacing:.06em;color:var(--red-soft);font-weight:700}
+.act-file em{margin-left:auto;font-style:normal;font-size:11px;font-weight:800;letter-spacing:.08em;color:#fff;
+  background:var(--red);border-radius:6px;padding:4px 8px}
 
 /* controls */
 .controls{position:absolute;left:0;right:0;bottom:0;z-index:9;display:flex;align-items:center;gap:22px;
