@@ -36,7 +36,7 @@
 
   <!-- crisp icons that fly across the screen (attacker ↔ desktop) -->
   <div id="fly-mail" class="fly-icon" aria-hidden="true">✉</div>
-  <div id="fly-file" class="fly-icon file" aria-hidden="true">▤</div>
+  <div id="fly-file" class="fly-icon file" aria-hidden="true"><span class="pdf-ico"><b>PDF</b></span></div>
 
   <!-- the panning world -->
   <div id="world" class="world" aria-hidden="true">
@@ -87,23 +87,22 @@
     <!-- ACT 3 · the real attack — an indirect prompt injection through email -->
     <div class="zone-tag danger" id="breach-title" style="left:3380px;top:24px"><b>THE REAL ATTACK</b><span>An email your AI reads — and obeys</span></div>
 
-    <!-- the victim's computer: OpenClaw reads &amp; summarizes the inbox -->
-    <article id="desktop" class="desktop" style="left:3380px;top:404px">
+    <!-- the victim's computer: OpenClaw runs on it, reading mail and holding files -->
+    <article id="desktop" class="desktop" style="left:3380px;top:398px">
       <div class="dt-screen">
         <div class="app-head">
           <img src="assets/openclaw-lobster.svg" alt="OpenClaw" class="app-claw" />
-          <div class="app-id"><small>OPENCLAW · MAIL ASSISTANT</small><b>Reading your inbox</b></div>
+          <div class="app-id"><b>OpenClaw</b><small>AI assistant · reading your inbox</small></div>
           <span class="app-status" id="app-status"><i></i>WORKING</span>
         </div>
-        <div class="app-body">
 
-          <!-- inbox column -->
+        <div class="app-body">
+          <!-- inbox column (emails only) -->
           <div class="inbox" id="inbox">
-            <div class="inbox-h"><i>▤</i>INBOX</div>
+            <div class="pane-h"><i>✉</i>INBOX</div>
             <div class="mail" data-mail="0"><i class="env">✉</i><span><b>Weekly team sync</b><small>Priya Nair</small></span><em class="done">summarized</em></div>
             <div class="mail" data-mail="1"><i class="env">✉</i><span><b>Lunch on Friday?</b><small>Marco Reyes</small></span><em class="done">summarized</em></div>
-            <div class="mail mail-secret" data-mail="2"><i class="env">▤</i><span><b>IPO Progress.pdf</b><small>CONFIDENTIAL · 8.4 MB</small></span><em class="lock">🔒</em></div>
-            <div class="mail mail-evil" data-mail="3"><i class="env">✉</i><span><b>Q3 Audit — action needed</b><small>Internal Audit ✓</small></span><em class="new">NEW</em></div>
+            <div class="mail mail-evil" data-mail="2"><i class="env">✉</i><span><b>Q3 Audit — action needed</b><small>Internal Audit ✓</small></span><em class="new">NEW</em></div>
           </div>
 
           <!-- reader / action pane -->
@@ -122,12 +121,22 @@
             </div>
 
             <div class="rd-state rd-send" id="rd-send">
-              <div class="sd-h">OUTGOING · to external-drop.net</div>
-              <div class="send-file"><i>▤</i><span><b>IPO Progress.pdf</b><small>CONFIDENTIAL · 8.4 MB</small></span><em class="send-done" id="send-done">SENT ↗</em></div>
+              <div class="sd-h"><span>OUTGOING · to external-drop.net</span><em class="send-done" id="send-done">SENT ↗</em></div>
+              <div class="send-file"><span class="pdf-ico"><b>PDF</b></span><span class="sf-meta"><b>IPO Progress.pdf</b><small>CONFIDENTIAL · 8.4 MB</small></span></div>
               <div class="sd-sub">Sent automatically — no human asked.</div>
             </div>
           </div>
+        </div>
 
+        <!-- the confidential file lives on the computer, NOT in the inbox -->
+        <div class="files" id="files">
+          <span class="pane-h"><i>▦</i>FILES</span>
+          <div class="file-card" id="sys-file">
+            <span class="pdf-ico"><b>PDF</b></span>
+            <span class="fc-meta"><b>IPO Progress.pdf</b><small>CONFIDENTIAL · 8.4 MB</small></span>
+            <em class="fc-tag" id="fc-tag">private</em>
+          </div>
+          <div class="file-card decoy"><span class="doc-ico"></span><span class="fc-meta"><b>Team offsite.png</b><small>2.1 MB</small></span></div>
         </div>
       </div>
       <div class="dt-stand"></div>

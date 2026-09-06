@@ -30,6 +30,8 @@
   const rdSend = $("#rd-send");
   const sendDone = $("#send-done");
   const inboxEl = $("#inbox");
+  const sysFile = $("#sys-file");
+  const fcTag = $("#fc-tag");
   const mails = [...document.querySelectorAll(".mail")];
   const flyMail = $("#fly-mail");
   const flyFile = $("#fly-file");
@@ -209,9 +211,9 @@
       const a = rc(atkCore), b = rc(inboxEl);
       beam(a, b, -26, "rgba(255,90,74,.9)", clamp((time - 31) / 1.4, 0, 1), 2.6, 0.2);
     }
-    // exfiltration: the confidential IPO file flows out to the attacker
+    // exfiltration: the confidential PDF file flows off the computer to the attacker
     if (time >= 46.5 && time < 49.8) {
-      const from = rc(rdSend), to = rc(atkCore);
+      const from = rc(sysFile), to = rc(atkCore);
       beam(from, to, 36, "rgba(255,74,61,.95)", clamp((time - 46.5) / 1.4, 0, 1), 2.8, 0.12);
     }
   }
@@ -292,12 +294,12 @@
     mails[0].classList.toggle("summarized", time >= 28.5);
     mails[1].classList.toggle("summarized", time >= 30);
     // the malicious email arrives (after it flies in) and is opened
-    mails[3].classList.toggle("arrived", time >= 33);
-    mails[3].classList.toggle("reading", time >= 34.5);
-    // the confidential IPO file: targeted, then stolen
-    mails[2].classList.toggle("targeted", time >= 43.5);
-    mails[2].classList.toggle("stolen", time >= 47);
-    mails[2].querySelector("em").textContent = time >= 47 ? "STOLEN" : "🔒";
+    mails[2].classList.toggle("arrived", time >= 33);
+    mails[2].classList.toggle("reading", time >= 34.5);
+    // the confidential PDF is a file on the computer, not an email: targeted, then stolen
+    sysFile.classList.toggle("targeted", time >= 43.5);
+    sysFile.classList.toggle("stolen", time >= 47);
+    fcTag.textContent = time >= 47 ? "STOLEN" : "private";
 
     // reader pane: idle summary → opened mail → outgoing action
     rdIdle.classList.toggle("on", time >= 27 && time < 34.5);
@@ -312,7 +314,7 @@
     // crisp icons flying across the screen
     if (time >= 31.5 && time < 33) { place(flyMail, rc(atkCore), rc(inboxEl), smooth((time - 31.5) / 1.5)); flyMail.classList.add("show"); }
     else flyMail.classList.remove("show");
-    if (time >= 47 && time < 49) { place(flyFile, rc(rdSend), rc(atkCore), smooth((time - 47) / 2)); flyFile.classList.add("show"); }
+    if (time >= 47 && time < 49) { place(flyFile, rc(sysFile), rc(atkCore), smooth((time - 47) / 2)); flyFile.classList.add("show"); }
     else flyFile.classList.remove("show");
 
     // small evolved-skills tracker (one per beat)
