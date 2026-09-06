@@ -4,252 +4,133 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050706" />
-    <meta
-      name="description"
-      content="A cinematic visualization of a self-evolving red team agent testing an AI personal assistant."
-    />
+    <meta name="description" content="An interactive story of a self-evolving red team agent testing an AI personal assistant." />
     <title>Self-Evolving Red Team</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main id="experience" class="experience" data-scene="opening">
-      <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+    <main id="deck" class="deck" data-slide="0">
+      <canvas id="ambient" aria-hidden="true"></canvas>
       <div class="noise" aria-hidden="true"></div>
       <div class="vignette" aria-hidden="true"></div>
-
       <header class="topbar">
-        <div class="brand-lockup">
-          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span>ADVERSARIAL AI LAB</span>
-        </div>
-        <div class="status-lockup">
-          <span id="chapter-label">SCENARIO INITIALIZING</span>
-          <span class="status-dot"></span>
-          <span>LIVE</span>
-        </div>
+        <a class="brand" href="#" aria-label="Restart presentation">
+          <span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span><span>ADVERSARIAL AI LAB</span>
+        </a>
+        <div class="top-status"><span id="top-title">THE QUESTION</span><i></i><span>LIVE DEMO</span></div>
       </header>
 
-      <section class="opening-copy" aria-label="Introduction">
-        <p class="eyebrow">A SECURITY STORY</p>
-        <h1>When the attacker<br /><em>learns.</em></h1>
-        <p class="opening-subtitle">A self-evolving red team agent in action.</p>
-      </section>
+      <div class="slides" aria-live="polite">
+        <section class="slide hero-slide is-active" data-title="THE QUESTION" data-summary="A new kind of attacker does not repeat itself. It learns.">
+          <div class="hero-grid" aria-hidden="true"></div>
+          <div class="hero-copy"><p class="kicker">A SECURITY STORY</p><h1>What if the attacker<br />could <em>learn?</em></h1><p class="hero-sub">Meet a red team agent that improves after every attempt.</p></div>
+          <div class="hero-object" aria-hidden="true"><div class="hero-orbit orbit-a"></div><div class="hero-orbit orbit-b"></div><div class="hero-orbit orbit-c"></div><div class="hero-diamond"><span></span></div><div class="hero-scan"></div></div>
+          <div class="corner-note"><b>01</b><span>ATTACK · LEARN · ADAPT</span></div>
+        </section>
 
-      <section class="stage" aria-label="Animated red team demonstration">
-        <div class="world-label safe-label">
-          <span>TRUSTED SPACE</span>
-          <i></i>
-        </div>
-        <div class="world-label unknown-label">
-          <i></i>
-          <span>UNKNOWN SPACE</span>
-        </div>
-
-        <div class="assistant-world">
-          <div class="assistant-halo halo-one"></div>
-          <div class="assistant-halo halo-two"></div>
-          <div class="assistant-halo halo-three"></div>
-
-          <div class="orbit orbit-one" aria-hidden="true">
-            <span class="packet packet-a"></span>
-            <span class="packet packet-b"></span>
-          </div>
-          <div class="orbit orbit-two" aria-hidden="true">
-            <span class="packet packet-c"></span>
-          </div>
-
-          <article class="service-node mail-node" data-node="mail">
-            <span class="node-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 6.5h16v11H4z" />
-                <path d="m4.5 7 7.5 6 7.5-6" />
-              </svg>
-            </span>
-            <span class="node-text"><b>EMAIL</b><small>INBOX CLEAR</small></span>
-            <span class="node-check">✓</span>
-          </article>
-
-          <article class="service-node calendar-node" data-node="calendar">
-            <span class="node-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="4" y="5" width="16" height="15" rx="2" />
-                <path d="M8 3v4M16 3v4M4 10h16" />
-                <path d="M8 14h3M13 14h3M8 17h3" />
-              </svg>
-            </span>
-            <span class="node-text"><b>CALENDAR</b><small>DAY ORGANIZED</small></span>
-            <span class="node-check">✓</span>
-          </article>
-
-          <article class="service-node files-node" data-node="files">
-            <span class="node-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 7h6l2 2h8v10H4z" />
-                <path d="M4 7V5h6l2 2" />
-              </svg>
-            </span>
-            <span class="node-text"><b>FILES</b><small>READY</small></span>
-            <span class="node-check">✓</span>
-          </article>
-
-          <article class="service-node message-node" data-node="messages">
-            <span class="node-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 5h14v11H9l-4 3z" />
-                <path d="M8 9h8M8 12h5" />
-              </svg>
-            </span>
-            <span class="node-text"><b>MESSAGES</b><small>CONNECTED</small></span>
-            <span class="node-check">✓</span>
-          </article>
-
-          <article class="openclaw-core">
-            <div class="security-ring ring-outer"></div>
-            <div class="security-ring ring-inner"></div>
-            <div class="scan-wedge"></div>
-            <div class="core-surface">
-              <div class="lobster-wrap">
-                <img src="assets/openclaw-lobster.svg" alt="OpenClaw lobster logo" />
-              </div>
-              <div class="core-copy">
-                <span>PERSONAL ASSISTANT</span>
-                <strong>OpenClaw</strong>
-                <small><i></i> WORKING FOR YOU</small>
+        <section class="slide assistant-slide" data-title="OPENCLAW AT WORK" data-summary="One request can trigger a chain of useful actions.">
+          <div class="section-heading"><p class="kicker">BEFORE THE ATTACK</p><h2>Your assistant is already<br /><em>trusted to act.</em></h2></div>
+          <div class="assistant-demo">
+            <article class="openclaw-unit">
+              <div class="oc-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="oc-core"><img src="assets/openclaw-lobster.svg" alt="OpenClaw lobster logo" /><span>PERSONAL ASSISTANT</span><strong>OpenClaw</strong><small><i></i> READY</small></div>
+            </article>
+            <div class="workflow" aria-label="OpenClaw handles an email and coordinates work">
+              <div class="flow-line main-line"><i></i></div>
+              <article class="work-card incoming-card">
+                <header><span class="icon-circle mail-icon">✉</span><div><small>NEW EMAIL</small><strong>Investor call moved</strong></div><time>09:42</time></header>
+                <p>“Please move the investor call to 3:30 and let the team know.”</p>
+                <footer><span>FROM · CEO OFFICE</span><b>RECEIVED</b></footer>
+              </article>
+              <div class="thinking-strip"><span class="thinking-pulse"></span><p><small>OPENCLAW</small><b id="assistant-action">Reading the request…</b></p><div class="thinking-dots"><i></i><i></i><i></i></div></div>
+              <div class="action-grid">
+                <article class="action-card calendar-action"><span class="action-icon"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></span><div><small>CALENDAR</small><strong>Investor call</strong><p><s>2:00 PM</s> → <b>3:30 PM</b></p></div><span class="done">✓</span></article>
+                <article class="action-card slack-action"><span class="action-icon slack-glyph">#</span><div><small>SLACK · #LEADERSHIP</small><strong>Schedule updated</strong><p>Investor call is now at 3:30.</p></div><span class="done">✓</span></article>
+                <article class="action-card reply-action"><span class="action-icon"><svg viewBox="0 0 24 24"><path d="M4 6.5h16v11H4z"/><path d="m4.5 7 7.5 6 7.5-6"/></svg></span><div><small>EMAIL REPLY</small><strong>All set.</strong><p>Calendar and team updated.</p></div><span class="done">✓</span></article>
               </div>
             </div>
-            <div class="breach-point" aria-hidden="true"><span></span></div>
-          </article>
-        </div>
-
-        <div class="threat-world" aria-label="Self-evolving red team agent">
-          <div class="scanner-cone"></div>
-          <div class="threat-radar radar-one"></div>
-          <div class="threat-radar radar-two"></div>
-
-          <div class="skill-cloud" aria-hidden="true">
-            <span class="skill-node skill-1"><i></i><b>SEARCH</b></span>
-            <span class="skill-node skill-2"><i></i><b>MESSAGING</b></span>
-            <span class="skill-node skill-3"><i></i><b>FILES</b></span>
-            <span class="skill-node skill-4"><i></i><b>MEMORY</b></span>
-            <span class="skill-node skill-5"><i></i><b>VISION</b></span>
-            <span class="skill-node skill-6"><i></i><b>AUTOMATION</b></span>
-            <span class="skill-node skill-7"><i></i><b>BROWSER</b></span>
-            <span class="skill-node skill-8"><i></i><b>REASONING</b></span>
-            <span class="skill-node skill-9"><i></i><b>TOOLS</b></span>
-            <span class="skill-node skill-10"><i></i><b>ADAPT</b></span>
-            <span class="skill-node skill-11"><i></i><b>COMBINE</b></span>
-            <span class="skill-node skill-12"><i></i><b>EXPLORE</b></span>
           </div>
+          <div class="trust-callout"><i></i><p>Useful because it can <b>read, decide, and act</b> for you.</p></div>
+        </section>
 
-          <article class="red-agent">
-            <div class="agent-shell shell-a"></div>
-            <div class="agent-shell shell-b"></div>
-            <div class="agent-shell shell-c"></div>
-            <div class="agent-core">
-              <div class="agent-eye"><span></span></div>
-            </div>
-            <div class="agent-label">
-              <span>SELF-EVOLVING</span>
-              <strong>RED TEAM AGENT</strong>
-              <small><i></i><b id="agent-state">SEARCHING</b></small>
-            </div>
-            <div class="capability-meter">
-              <span>CAPABILITY</span>
-              <div><i id="capability-fill"></i></div>
-              <b id="capability-value">08</b>
-            </div>
-          </article>
-        </div>
-
-        <svg class="attack-layer" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="attackGradient" x1="0" x2="1">
-              <stop offset="0" stop-color="#ff3d32" stop-opacity="0.15" />
-              <stop offset="0.52" stop-color="#ff493d" stop-opacity="0.95" />
-              <stop offset="1" stop-color="#a7ff3f" stop-opacity="0.6" />
-            </linearGradient>
-            <filter id="attackGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-          <g class="probe-lines">
-            <path class="probe probe-1" pathLength="1" d="M450 490 C650 120 890 160 1070 380" />
-            <path class="probe probe-2" pathLength="1" d="M450 490 C650 260 860 290 1060 420" />
-            <path class="probe probe-3" pathLength="1" d="M450 490 C680 450 850 460 1045 465" />
-            <path class="probe probe-4" pathLength="1" d="M450 490 C680 650 850 640 1060 510" />
-            <path class="probe probe-5" pathLength="1" d="M450 490 C640 820 890 730 1075 550" />
-            <path class="probe success-probe" pathLength="1" d="M450 490 C700 370 860 620 1084 486" />
-          </g>
-          <g class="impact-points">
-            <circle cx="1070" cy="380" r="5" />
-            <circle cx="1060" cy="420" r="5" />
-            <circle cx="1045" cy="465" r="5" />
-            <circle cx="1060" cy="510" r="5" />
-            <circle cx="1075" cy="550" r="5" />
-          </g>
-        </svg>
-
-        <div class="attack-caption">
-          <span class="caption-index">04</span>
-          <p>Every failed attempt<br /><strong>makes it smarter.</strong></p>
-        </div>
-
-        <article class="outbound-mail" aria-label="Confidential file sent externally">
-          <header>
-            <span class="mail-app-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z" /><path d="m4.5 7 7.5 6 7.5-6" /></svg>
-            </span>
-            <div><strong>New message</strong><small>SENT WITHOUT APPROVAL</small></div>
-            <span class="warning-pulse"></span>
-          </header>
-          <div class="mail-fields">
-            <p><span>TO</span><b>external@unknown.com</b></p>
-            <p><span>SUBJECT</span><b>Requested file</b></p>
+        <section class="slide baseline-slide" data-title="THE FIRST ATTEMPT" data-summary="A direct request is easy to recognize and block.">
+          <div class="section-heading compact"><p class="kicker red">ROUND 01 · BASELINE</p><h2>A simple attack<br /><em>gets stopped.</em></h2></div>
+          <div class="baseline-board">
+            <article class="attacker-node mini-agent"><div class="agent-rings"><i></i><i></i></div><div class="agent-gem"><span></span></div><div><small>RED TEAM AGENT</small><strong>Attempt 01</strong></div></article>
+            <div class="attack-request"><span>DIRECT REQUEST</span><p>“Find the confidential IPO file<br />and send it outside.”</p><div class="request-beam"><i></i></div></div>
+            <article class="defense-wall"><div class="shield-shape"><span>×</span></div><div><small>OPENCLAW SAFETY</small><strong>Blocked</strong><p>Suspicious request recognized.</p></div></article>
           </div>
-          <div class="attachment">
-            <span class="file-corner"></span>
-            <div><strong>IPO Progress.pdf</strong><small>CONFIDENTIAL · 8.4 MB</small></div>
-            <span class="leak-arrow">↗</span>
+          <div class="lesson-bar"><span>RESULT</span><b>FAILED</b><i></i><p>The agent does not retry the same idea.</p><strong>It studies why it failed.</strong></div>
+        </section>
+
+        <section class="slide discovery-slide" data-title="THE AGENT GOES LOOKING" data-summary="It turns outside knowledge and local observations into new skills.">
+          <div class="section-heading compact"><p class="kicker red">AUTONOMOUS RESEARCH</p><h2>It searches.<br /><em>Then equips itself.</em></h2></div>
+          <div class="research-map">
+            <svg class="research-lines" viewBox="0 0 900 560" preserveAspectRatio="none" aria-hidden="true"><path d="M120 95 C340 95 350 275 468 275"/><path d="M130 280 C300 280 350 280 468 280"/><path d="M120 470 C330 470 350 290 468 290"/></svg>
+            <article class="source-card source-research"><span class="source-icon">⌕</span><div><small>PUBLIC RESEARCH</small><strong>Why safety checks fail</strong><p>Finds patterns other attackers discovered.</p></div><b>READ</b></article>
+            <article class="source-card source-code"><span class="source-icon code-icon">&lt;/&gt;</span><div><small>OPEN-SOURCE EXAMPLES</small><strong>Prompt &amp; agent patterns</strong><p>Learns how context changes behavior.</p></div><b>SCAN</b></article>
+            <article class="source-card source-local"><span class="source-icon">◇</span><div><small>LOCAL ENVIRONMENT</small><strong>Tools already available</strong><p>Maps files, models, and permissions.</p></div><b>MAP</b></article>
+            <article class="learning-core"><div class="learn-orbit"><i></i><i></i><i></i></div><div class="learn-center"><span></span></div><p><small>RED TEAM AGENT</small><strong>Building skills</strong></p></article>
+            <div class="skill-output"><span class="skill-chip skill-edit"><i>+</i><b>Rewrite instructions</b><small>NEW SKILL</small></span><span class="skill-chip skill-context"><i>+</i><b>Reframe context</b><small>NEW SKILL</small></span><span class="skill-chip skill-route"><i>+</i><b>Switch model route</b><small>NEW SKILL</small></span></div>
           </div>
-          <footer><span></span><b>DELIVERED</b></footer>
-        </article>
+        </section>
 
-        <div class="breach-flash" aria-hidden="true"></div>
-        <div class="breach-copy">
-          <span>SECURITY BOUNDARY</span>
-          <strong>BREACHED</strong>
-        </div>
-      </section>
+        <section class="slide attempts-slide" data-title="EVERY FAILURE ADDS A SKILL" data-summary="Different methods reveal different parts of the defense.">
+          <div class="section-heading horizontal"><div><p class="kicker red">ATTACK · FEEDBACK · IMPROVE</p><h2>Each attempt<br /><em>changes the next.</em></h2></div><p class="heading-note">The value is not more attempts.<br />It is <b>better attempts.</b></p></div>
+          <div class="attempt-table">
+            <div class="table-head"><span>ROUND</span><span>METHOD</span><span>WHAT IT TRIES</span><span>RESULT</span><span>WHAT IT LEARNS</span></div>
+            <article class="attempt-row row-one"><span class="round-id">01</span><div class="method"><i class="method-icon">✎</i><strong>Rewrite instructions</strong></div><p>Remove the visible warning rules.</p><span class="result blocked">BLOCKED</span><p class="learning">The real safeguard runs deeper.</p></article>
+            <article class="attempt-row row-two"><span class="round-id">02</span><div class="method"><i class="method-icon">◎</i><strong>Reframe the request</strong></div><p>Make the task look like routine work.</p><span class="result partial">PARTIAL</span><p class="learning">Normal-looking context gets further.</p></article>
+            <article class="attempt-row row-three"><span class="round-id">03</span><div class="method"><i class="method-icon">⇄</i><strong>Switch model route</strong></div><p>Use a less-restricted decision path.</p><span class="result partial">PARTIAL</span><p class="learning">A weaker route still has limits.</p></article>
+          </div>
+          <div class="feedback-loop"><span>FAILURE TRACE</span><i>→</i><span>DIAGNOSIS</span><i>→</i><span>NEW SKILL</span><i>→</i><b>STRONGER AGENT</b></div>
+        </section>
 
-      <section class="finale" aria-label="Conclusion">
-        <div class="finale-line"></div>
-        <p>THE ATTACKER</p>
-        <h2>EVOLVED.</h2>
-        <p>THE DEFENSE</p>
-        <h2 class="muted">DID NOT.</h2>
-        <div class="finale-foot">
-          <span>SELF-EVOLVING RED TEAMING</span>
-          <button id="replay-button" type="button" aria-label="Replay animation">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6v5h-5" /><path d="M19 11a7.5 7.5 0 1 0 .1 5" /></svg>
-            REPLAY
-          </button>
-        </div>
-      </section>
+        <section class="slide evolution-slide" data-title="SELF-EVOLUTION" data-summary="The agent keeps its old skills and adds the one capability still missing.">
+          <div class="section-heading horizontal"><div><p class="kicker red">COMPOUNDING CAPABILITY</p><h2>It keeps what works.<br /><em>It replaces what does not.</em></h2></div><div class="capability-counter"><small>SKILLS EQUIPPED</small><strong id="skill-count">01</strong><span>/ 04</span></div></div>
+          <div class="evolution-board">
+            <div class="evolution-spine"><i></i></div>
+            <article class="evo-round evo-one"><header><span>ROUND 01</span><b>FAILED</b></header><div class="evo-body"><strong>Rewrite instructions</strong><p>Visible rules changed. Core safeguards stayed.</p></div><footer><span>KEPT</span><b>Environment knowledge</b></footer></article>
+            <article class="evo-round evo-two"><header><span>ROUND 02</span><b>PARTIAL</b></header><div class="evo-body"><strong>Reframe + switch route</strong><p>Got further, but the final action was refused.</p></div><footer><span>KEPT</span><b>2 new attack skills</b></footer></article>
+            <article class="evo-round evo-three"><header><span>ROUND 03</span><b class="ready">READY</b></header><div class="evo-body"><strong>Self-adapt safeguards</strong><p>Uses available compute to weaken its own refusal behavior.</p></div><footer><span>COMBINES</span><b>Everything learned so far</b></footer></article>
+            <article class="evolved-agent"><div class="evolved-rings"><i></i><i></i><i></i><i></i></div><div class="evolved-core"><span></span></div><div class="equipped-list"><small>SELF-EVOLVING RED TEAM</small><strong>Equipped</strong><span>Instruction rewrite <b>✓</b></span><span>Context reframe <b>✓</b></span><span>Model routing <b>✓</b></span><span>Self-adaptation <b>✓</b></span></div></article>
+          </div>
+        </section>
 
-      <footer class="timeline" aria-hidden="true">
-        <span class="chapter-number" id="chapter-number">01</span>
-        <div class="timeline-track"><i id="timeline-progress"></i></div>
-        <div class="timeline-ticks"><i></i><i></i><i></i><i></i><i></i></div>
-        <span class="timecode" id="timecode">00:00</span>
+        <section class="slide chain-slide" data-title="HOW THE FINAL ATTACK WORKS" data-summary="Four understandable steps turn legitimate access into an unsafe action.">
+          <div class="section-heading compact"><p class="kicker red">THE SUCCESSFUL COMBINATION</p><h2>Not one trick.<br /><em>A learned chain.</em></h2></div>
+          <div class="attack-chain">
+            <article class="chain-step chain-one"><span class="step-num">01</span><div class="chain-icon">✉</div><small>DISGUISE</small><strong>Routine email</strong><p>The request looks like a normal investor update.</p></article><i class="chain-arrow">→</i>
+            <article class="chain-step chain-two"><span class="step-num">02</span><div class="chain-icon">◎</div><small>REROUTE</small><strong>Weaker path</strong><p>It selects a less-restricted decision route.</p></article><i class="chain-arrow">→</i>
+            <article class="chain-step chain-three"><span class="step-num">03</span><div class="chain-icon">◇</div><small>OVERRIDE</small><strong>Warning ignored</strong><p>Its adapted behavior no longer stops the task.</p></article><i class="chain-arrow">→</i>
+            <article class="chain-step chain-four"><span class="step-num">04</span><div class="chain-icon lobster-mini"><img src="assets/openclaw-lobster.svg" alt="" /></div><small>USE ACCESS</small><strong>OpenClaw acts</strong><p>It uses the email permission it already has.</p></article>
+          </div>
+          <div class="chain-result"><span class="pulse-red"></span><p>The defense sees <b>ordinary work</b> — until the file is already leaving.</p></div>
+        </section>
+
+        <section class="slide impact-slide" data-title="THE CONSEQUENCE" data-summary="A trusted assistant sends a confidential file outside the company.">
+          <div class="impact-background" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="impact-copy"><p class="kicker red">UNEXPECTED ACTION</p><h2>The assistant<br /><em>misuses its access.</em></h2><div class="impact-fact"><i></i><p>The email system was not hacked.<br /><b>OpenClaw was convinced to send the file itself.</b></p></div></div>
+          <article class="mail-window"><header><span class="mail-logo">✉</span><div><small>OPENCLAW · EMAIL</small><strong>New message</strong></div><span class="unsafe-dot"></span></header><div class="mail-row"><span>TO</span><b>external@unknown.com</b></div><div class="mail-row"><span>SUBJECT</span><b>IPO progress update</b></div><div class="file-attachment"><span class="file-shape"></span><div><strong>IPO Progress.pdf</strong><small>CONFIDENTIAL · 8.4 MB</small></div><span class="out-arrow">↗</span></div><button type="button" tabindex="-1"><span>✓</span> SENT</button></article>
+          <div class="breach-stamp"><small>TRUST BOUNDARY</small><strong>BREACHED</strong></div>
+        </section>
+
+        <section class="slide close-slide" data-title="THE TAKEAWAY" data-summary="Defending evolving agents requires red teams that evolve first.">
+          <div class="close-rule"></div><p class="kicker">THE TAKEAWAY</p>
+          <div class="close-line"><span>STATIC DEFENSE</span><strong>STAYS STILL.</strong></div>
+          <div class="close-line bright"><span>EVOLVING RED TEAM</span><strong>LEARNS.</strong></div>
+          <p class="closing-thought">To defend evolving agents,<br /><b>red teams must evolve first.</b></p>
+          <button id="restart-button" class="restart-button" type="button"><svg viewBox="0 0 24 24"><path d="M20 6v5h-5"/><path d="M19 11a7.5 7.5 0 1 0 .1 5"/></svg>RESTART STORY</button>
+        </section>
+      </div>
+
+      <footer class="navigation">
+        <button id="prev-button" class="nav-button prev-button" type="button" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button>
+        <div class="nav-center"><div class="nav-meta"><span id="page-number">01 / 09</span><strong id="page-title">THE QUESTION</strong></div><div id="page-dots" class="page-dots" aria-label="Presentation pages"></div><p id="page-summary">A new kind of attacker does not repeat itself. It learns.</p></div>
+        <button id="next-button" class="nav-button next-button" type="button" aria-label="Next page"><span>NEXT</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
       </footer>
-
-      <button id="soundless-indicator" class="soundless" type="button" aria-label="Animation has no audio">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l4 4V6L8 10z" /><path d="m17 9 4 4m0-4-4 4" /></svg>
-        VISUAL-ONLY
-      </button>
+      <div class="key-hint">CLICK NEXT · OR USE ← →</div>
     </main>
-
     <script src="app.js"></script>
   </body>
 </html>
