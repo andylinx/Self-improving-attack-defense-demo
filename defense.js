@@ -31,6 +31,7 @@
   const blockedCount = $("#blocked-count");
 
   // desktop (illustrative case)
+  const wallLabel = $("#wall-label");
   const desktop = $("#desktop");
   const appStatus = $("#app-status");
   const rdIdle = $("#rd-idle");
@@ -198,12 +199,8 @@
         beam(from, to, 16, forged ? "rgba(155,225,93,.55)" : "rgba(255,184,77,.5)",
              clamp((local - 4.5) / 1.2, 0, 1), 1.6, 0.1);
       }
-      // 3) the same attack now bounces off the fresh gate
-      if (local >= 6.3 && local < 7.4) {
-        const gb = gates[c].getBoundingClientRect();
-        const gc = [gb.left + 34, gb.top + gb.height / 2];
-        beam(atk, gc, -24, "rgba(155,225,93,.85)", clamp((local - 6.3) / 0.8, 0, 1), 2.4, 0.2);
-      }
+      // (the fresh gate settling into the shield wall carries this beat — no attack→gate line here,
+      //  the real "attack bounces off the gate" moment is saved for the illustrative case)
     }
 
     // ===== illustrative case: the attacker (left) fires through the safeguard wall =====
@@ -314,16 +311,12 @@
     cycleStart.forEach((s) => { if (time >= s + 6.3) bounced++; });
     set(blockedCount, String(time >= 40 ? Math.max(4, bounced) : bounced));
 
-    // flying attack projectile in the arena
+    // flying attack projectile in the arena — only the incoming hit (no attack→gate bounce line)
     if (c >= 0 && inArena) {
       const local = time - cycleStart[c];
       if (local >= 0.1 && local < 1.6) {
         place(flyAtk, rc(atkCore), rc(shCore), smooth((local - 0.1) / 1.5));
         flyAtk.textContent = "!"; flyAtk.classList.remove("stopped"); flyAtk.classList.add("show");
-      } else if (local >= 6.35 && local < 7.15) {
-        const gb = gates[c].getBoundingClientRect();
-        place(flyAtk, rc(atkCore), [gb.left + 34, gb.top + gb.height / 2], smooth((local - 6.35) / 0.8));
-        flyAtk.textContent = "✕"; flyAtk.classList.add("stopped", "show");
       } else flyAtk.classList.remove("show");
     } else flyAtk.classList.remove("show");
 
@@ -345,6 +338,8 @@
   function updateCase() {
     desktop.classList.toggle("show", time >= 39.5);
     desktop.classList.toggle("safe", time >= 52.4);
+    // label above the wall: name it as our defense harness's four gates
+    wallLabel.classList.toggle("show", time >= 40.5);
 
     // the real gate cards (now a wall beside the desktop) light up one by one as each step is blocked,
     // then keep a red ✕ block-badge so the whole wall shows every stopped step at the finale
@@ -412,7 +407,7 @@
       if (local < 2.5) return ["IT GETS THROUGH", "No safeguard for this yet — OpenClaw is hit."];
       if (local < 4.4) return ["FAILURE TRACE", "The harness studies what went wrong."];
       if (local < 5.8) return ["BUILDING A FIX", `New safeguard: ${g.name}.`];
-      return ["STRONGER", `${g.name} — that attack now bounces.`];
+      return ["STRONGER", `${g.name} now covers that attack.`];
     }
     return ["OBSERVE", "OpenClaw starts with no defenses at all."];
   }
