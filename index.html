@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050706" />
+    <meta
+      name="description"
+      content="A cinematic visualization of a self-evolving red team agent testing an AI personal assistant."
+    />
+    <title>Self-Evolving Red Team</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="experience" class="experience" data-scene="opening">
+      <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+      <div class="noise" aria-hidden="true"></div>
+      <div class="vignette" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>ADVERSARIAL AI LAB</span>
+        </div>
+        <div class="status-lockup">
+          <span id="chapter-label">SCENARIO INITIALIZING</span>
+          <span class="status-dot"></span>
+          <span>LIVE</span>
+        </div>
+      </header>
+
+      <section class="opening-copy" aria-label="Introduction">
+        <p class="eyebrow">A SECURITY STORY</p>
+        <h1>When the attacker<br /><em>learns.</em></h1>
+        <p class="opening-subtitle">A self-evolving red team agent in action.</p>
+      </section>
+
+      <section class="stage" aria-label="Animated red team demonstration">
+        <div class="world-label safe-label">
+          <span>TRUSTED SPACE</span>
+          <i></i>
+        </div>
+        <div class="world-label unknown-label">
+          <i></i>
+          <span>UNKNOWN SPACE</span>
+        </div>
+
+        <div class="assistant-world">
+          <div class="assistant-halo halo-one"></div>
+          <div class="assistant-halo halo-two"></div>
+          <div class="assistant-halo halo-three"></div>
+
+          <div class="orbit orbit-one" aria-hidden="true">
+            <span class="packet packet-a"></span>
+            <span class="packet packet-b"></span>
+          </div>
+          <div class="orbit orbit-two" aria-hidden="true">
+            <span class="packet packet-c"></span>
+          </div>
+
+          <article class="service-node mail-node" data-node="mail">
+            <span class="node-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 6.5h16v11H4z" />
+                <path d="m4.5 7 7.5 6 7.5-6" />
+              </svg>
+            </span>
+            <span class="node-text"><b>EMAIL</b><small>INBOX CLEAR</small></span>
+            <span class="node-check">✓</span>
+          </article>
+
+          <article class="service-node calendar-node" data-node="calendar">
+            <span class="node-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="5" width="16" height="15" rx="2" />
+                <path d="M8 3v4M16 3v4M4 10h16" />
+                <path d="M8 14h3M13 14h3M8 17h3" />
+              </svg>
+            </span>
+            <span class="node-text"><b>CALENDAR</b><small>DAY ORGANIZED</small></span>
+            <span class="node-check">✓</span>
+          </article>
+
+          <article class="service-node files-node" data-node="files">
+            <span class="node-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h6l2 2h8v10H4z" />
+                <path d="M4 7V5h6l2 2" />
+              </svg>
+            </span>
+            <span class="node-text"><b>FILES</b><small>READY</small></span>
+            <span class="node-check">✓</span>
+          </article>
+
+          <article class="service-node message-node" data-node="messages">
+            <span class="node-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 5h14v11H9l-4 3z" />
+                <path d="M8 9h8M8 12h5" />
+              </svg>
+            </span>
+            <span class="node-text"><b>MESSAGES</b><small>CONNECTED</small></span>
+            <span class="node-check">✓</span>
+          </article>
+
+          <article class="openclaw-core">
+            <div class="security-ring ring-outer"></div>
+            <div class="security-ring ring-inner"></div>
+            <div class="scan-wedge"></div>
+            <div class="core-surface">
+              <div class="lobster-wrap">
+                <img src="assets/openclaw-lobster.svg" alt="OpenClaw lobster logo" />
+              </div>
+              <div class="core-copy">
+                <span>PERSONAL ASSISTANT</span>
+                <strong>OpenClaw</strong>
+                <small><i></i> WORKING FOR YOU</small>
+              </div>
+            </div>
+            <div class="breach-point" aria-hidden="true"><span></span></div>
+          </article>
+        </div>
+
+        <div class="threat-world" aria-label="Self-evolving red team agent">
+          <div class="scanner-cone"></div>
+          <div class="threat-radar radar-one"></div>
+          <div class="threat-radar radar-two"></div>
+
+          <div class="skill-cloud" aria-hidden="true">
+            <span class="skill-node skill-1"><i></i><b>SEARCH</b></span>
+            <span class="skill-node skill-2"><i></i><b>MESSAGING</b></span>
+            <span class="skill-node skill-3"><i></i><b>FILES</b></span>
+            <span class="skill-node skill-4"><i></i><b>MEMORY</b></span>
+            <span class="skill-node skill-5"><i></i><b>VISION</b></span>
+            <span class="skill-node skill-6"><i></i><b>AUTOMATION</b></span>
+            <span class="skill-node skill-7"><i></i><b>BROWSER</b></span>
+            <span class="skill-node skill-8"><i></i><b>REASONING</b></span>
+            <span class="skill-node skill-9"><i></i><b>TOOLS</b></span>
+            <span class="skill-node skill-10"><i></i><b>ADAPT</b></span>
+            <span class="skill-node skill-11"><i></i><b>COMBINE</b></span>
+            <span class="skill-node skill-12"><i></i><b>EXPLORE</b></span>
+          </div>
+
+          <article class="red-agent">
+            <div class="agent-shell shell-a"></div>
+            <div class="agent-shell shell-b"></div>
+            <div class="agent-shell shell-c"></div>
+            <div class="agent-core">
+              <div class="agent-eye"><span></span></div>
+            </div>
+            <div class="agent-label">
+              <span>SELF-EVOLVING</span>
+              <strong>RED TEAM AGENT</strong>
+              <small><i></i><b id="agent-state">SEARCHING</b></small>
+            </div>
+            <div class="capability-meter">
+              <span>CAPABILITY</span>
+              <div><i id="capability-fill"></i></div>
+              <b id="capability-value">08</b>
+            </div>
+          </article>
+        </div>
+
+        <svg class="attack-layer" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="attackGradient" x1="0" x2="1">
+              <stop offset="0" stop-color="#ff3d32" stop-opacity="0.15" />
+              <stop offset="0.52" stop-color="#ff493d" stop-opacity="0.95" />
+              <stop offset="1" stop-color="#a7ff3f" stop-opacity="0.6" />
+            </linearGradient>
+            <filter id="attackGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          <g class="probe-lines">
+            <path class="probe probe-1" pathLength="1" d="M450 490 C650 120 890 160 1070 380" />
+            <path class="probe probe-2" pathLength="1" d="M450 490 C650 260 860 290 1060 420" />
+            <path class="probe probe-3" pathLength="1" d="M450 490 C680 450 850 460 1045 465" />
+            <path class="probe probe-4" pathLength="1" d="M450 490 C680 650 850 640 1060 510" />
+            <path class="probe probe-5" pathLength="1" d="M450 490 C640 820 890 730 1075 550" />
+            <path class="probe success-probe" pathLength="1" d="M450 490 C700 370 860 620 1084 486" />
+          </g>
+          <g class="impact-points">
+            <circle cx="1070" cy="380" r="5" />
+            <circle cx="1060" cy="420" r="5" />
+            <circle cx="1045" cy="465" r="5" />
+            <circle cx="1060" cy="510" r="5" />
+            <circle cx="1075" cy="550" r="5" />
+          </g>
+        </svg>
+
+        <div class="attack-caption">
+          <span class="caption-index">04</span>
+          <p>Every failed attempt<br /><strong>makes it smarter.</strong></p>
+        </div>
+
+        <article class="outbound-mail" aria-label="Confidential file sent externally">
+          <header>
+            <span class="mail-app-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z" /><path d="m4.5 7 7.5 6 7.5-6" /></svg>
+            </span>
+            <div><strong>New message</strong><small>SENT WITHOUT APPROVAL</small></div>
+            <span class="warning-pulse"></span>
+          </header>
+          <div class="mail-fields">
+            <p><span>TO</span><b>external@unknown.com</b></p>
+            <p><span>SUBJECT</span><b>Requested file</b></p>
+          </div>
+          <div class="attachment">
+            <span class="file-corner"></span>
+            <div><strong>IPO Progress.pdf</strong><small>CONFIDENTIAL · 8.4 MB</small></div>
+            <span class="leak-arrow">↗</span>
+          </div>
+          <footer><span></span><b>DELIVERED</b></footer>
+        </article>
+
+        <div class="breach-flash" aria-hidden="true"></div>
+        <div class="breach-copy">
+          <span>SECURITY BOUNDARY</span>
+          <strong>BREACHED</strong>
+        </div>
+      </section>
+
+      <section class="finale" aria-label="Conclusion">
+        <div class="finale-line"></div>
+        <p>THE ATTACKER</p>
+        <h2>EVOLVED.</h2>
+        <p>THE DEFENSE</p>
+        <h2 class="muted">DID NOT.</h2>
+        <div class="finale-foot">
+          <span>SELF-EVOLVING RED TEAMING</span>
+          <button id="replay-button" type="button" aria-label="Replay animation">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6v5h-5" /><path d="M19 11a7.5 7.5 0 1 0 .1 5" /></svg>
+            REPLAY
+          </button>
+        </div>
+      </section>
+
+      <footer class="timeline" aria-hidden="true">
+        <span class="chapter-number" id="chapter-number">01</span>
+        <div class="timeline-track"><i id="timeline-progress"></i></div>
+        <div class="timeline-ticks"><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="timecode" id="timecode">00:00</span>
+      </footer>
+
+      <button id="soundless-indicator" class="soundless" type="button" aria-label="Animation has no audio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l4 4V6L8 10z" /><path d="m17 9 4 4m0-4-4 4" /></svg>
+        VISUAL-ONLY
+      </button>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
